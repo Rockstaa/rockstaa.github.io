@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.container {
+    width: 45%;
+}
+input, button {
+    margin: 5px 0;
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    display: block;
+}
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #45a049;
+}
+#resultDialog {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 90%;
+    width: 400px;
+    word-wrap: break-word;
+}
+#result {
+    margin-bottom: 20px;
+}
+.dynamic-field {
+    display: flex;
+    align-items: center;
+}
+.dynamic-field input {
+    flex-grow: 1;
+}
+.remove-field {
+    margin-left: 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+#payloadDisplay {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    height: 90vh;
+    overflow-y: auto;
+}
