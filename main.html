@@ -9,22 +9,24 @@
 <body>
 
     <div class="container">
-        <h1>JWT Generator</h1>
-        <label for="issuedAt">Issued At (timestamp):</label>
-        <input type="datetime-local" id="issuedAt" oninput="updatePayload()">
-        <label for="expiration">Expiration (timestamp):</label>
-        <input type="datetime-local" id="expiration" oninput="updatePayload()">
-        <label for="secret">Secret:</label>
-        <input type="text" id="secret" placeholder="Enter secret key" oninput="updatePayload()">
+        <div class="form-container">
+            <h1>JWT Generator</h1>
+            <label for="issuedAt">Issued At (timestamp):</label>
+            <input type="datetime-local" id="issuedAt" oninput="updatePayload()">
+            <label for="expiration">Expiration (timestamp):</label>
+            <input type="datetime-local" id="expiration" oninput="updatePayload()">
+            <label for="secret">Secret:</label>
+            <input type="text" id="secret" placeholder="Enter secret key" oninput="updatePayload()">
 
-        <div id="dynamicFieldsContainer"></div>
-        <button onclick="addField()">Add Field</button>
-        <button onclick="generateJWT()">Generate JWT</button>
-    </div>
+            <div id="dynamicFieldsContainer"></div>
+            <button onclick="addField()">Add Field</button>
+            <button onclick="generateJWT()">Generate JWT</button>
+        </div>
 
-    <div class="container">
-        <h2>Current Payload</h2>
-        <div id="payloadDisplay"></div>
+        <div class="payload-container">
+            <h2>Current Payload</h2>
+            <div id="payloadDisplay"></div>
+        </div>
     </div>
 
     <div id="resultDialog">
