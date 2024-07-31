@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP QR-Code Generator</title>
+    <link rel="stylesheet" href="otp.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
+</head>
+<body>
+    <div id="background"></div>
+    <h1>OTP QR-Code Generator</h1>
+    <form id="otp-form">
+        <label for="issuer">Issuer:</label>
+        <input type="text" id="issuer" name="issuer" required>
+        <label for="accountName">Account Name:</label>
+        <input type="text" id="accountName" name="accountName" required>
+        <label for="secret">Secret:</label>
+        <input type="text" id="secret" name="secret" required>
+        <button type="button" onclick="generateSecret()">Generate Secret</button>
+        <button type="submit">Generate QR Code</button>
+    </form>
+    <div id="overlay"></div>
+    <div id="dialog">
+        <h2>Generated OTP QR Code</h2>
+        <div id="dialog-qrcode"></div>
+        <button id="download">Download as PNG</button>
+        <button onclick="closeDialog()">Close</button>
+    </div>
+    <script src="otp.js"></script>
+    <script>
+        VANTA.WAVES({
+            el: "#background",
+            color: 0x28a745,
+            shininess: 50,
+            waveHeight: 20,
+            waveSpeed: 1.2,
+            zoom: 1.0
+        });
+    </script>
+</body>
+</html>
