@@ -1,0 +1,182 @@
+{
+  "verein": "1. FC Kaiserslautern",
+  "saison": "2026/27",
+  "stand": "2026-08-31",
+  "quelle": "fck.de/profis/kader",
+  "spieler": [
+    {
+      "nr": 1,
+      "name": "Julian Krahl",
+      "kurz": "Krahl",
+      "position": "Tor"
+    },
+    {
+      "nr": 34,
+      "name": "Yannick Onohiol",
+      "kurz": "Onohiol",
+      "position": "Tor"
+    },
+    {
+      "nr": 40,
+      "name": "Enis Kamga",
+      "kurz": "Kamga",
+      "position": "Tor"
+    },
+    {
+      "nr": 2,
+      "name": "Simon Asta",
+      "kurz": "Asta",
+      "position": "Abwehr"
+    },
+    {
+      "nr": 3,
+      "name": "Alex Murphy",
+      "kurz": "Murphy",
+      "position": "Abwehr"
+    },
+    {
+      "nr": 4,
+      "name": "Maxwell Gyamfi",
+      "kurz": "Gyamfi",
+      "position": "Abwehr"
+    },
+    {
+      "nr": 5,
+      "name": "Kelven Frees",
+      "kurz": "Frees",
+      "position": "Abwehr"
+    },
+    {
+      "nr": 14,
+      "name": "Jacob Rasmussen",
+      "kurz": "Rasmussen",
+      "position": "Abwehr"
+    },
+    {
+      "nr": 22,
+      "name": "Mika Haas",
+      "kurz": "Haas",
+      "position": "Abwehr"
+    },
+    {
+      "nr": 26,
+      "name": "Paul Joly",
+      "kurz": "Joly",
+      "position": "Abwehr"
+    },
+    {
+      "nr": 33,
+      "name": "Jan Elvedi",
+      "kurz": "Elvedi",
+      "position": "Abwehr"
+    },
+    {
+      "nr": 6,
+      "name": "Fabian Kunze",
+      "kurz": "Kunze",
+      "position": "Mittelfeld"
+    },
+    {
+      "nr": 7,
+      "name": "Marlon Ritter",
+      "kurz": "Ritter",
+      "position": "Mittelfeld"
+    },
+    {
+      "nr": 8,
+      "name": "Semih Şahin",
+      "kurz": "Şahin",
+      "position": "Mittelfeld"
+    },
+    {
+      "nr": 15,
+      "name": "Naatan Skyttä",
+      "kurz": "Skyttä",
+      "position": "Mittelfeld"
+    },
+    {
+      "nr": 21,
+      "name": "Mario Sauer",
+      "kurz": "Sauer",
+      "position": "Mittelfeld"
+    },
+    {
+      "nr": 37,
+      "name": "Leon Robinson",
+      "kurz": "Robinson",
+      "position": "Mittelfeld"
+    },
+    {
+      "nr": 41,
+      "name": "David Schramm",
+      "kurz": "Schramm",
+      "position": "Mittelfeld"
+    },
+    {
+      "nr": 42,
+      "name": "Erik Müller",
+      "kurz": "Müller",
+      "position": "Mittelfeld"
+    },
+    {
+      "nr": 43,
+      "name": "Owen Gibs",
+      "kurz": "Gibs",
+      "position": "Mittelfeld"
+    },
+    {
+      "nr": 44,
+      "name": "Dion Hofmeister",
+      "kurz": "Hofmeister",
+      "position": "Mittelfeld"
+    },
+    {
+      "nr": 46,
+      "name": "Kian Scheer",
+      "kurz": "Scheer",
+      "position": "Mittelfeld"
+    },
+    {
+      "nr": 47,
+      "name": "Ben Jungfleisch",
+      "kurz": "Jungfleisch",
+      "position": "Mittelfeld"
+    },
+    {
+      "nr": 9,
+      "name": "Ivan Prtajin",
+      "kurz": "Prtajin",
+      "position": "Sturm"
+    },
+    {
+      "nr": 11,
+      "name": "Ibrahim Kanaté",
+      "kurz": "Kanaté",
+      "position": "Sturm"
+    },
+    {
+      "nr": 17,
+      "name": "Erencan Yardımcı",
+      "kurz": "Yardımcı",
+      "position": "Sturm"
+    },
+    {
+      "nr": 20,
+      "name": "Mergim Berisha",
+      "kurz": "Berisha",
+      "position": "Sturm"
+    },
+    {
+      "nr": 39,
+      "name": "Thierry Tazemeta",
+      "kurz": "Tazemeta",
+      "position": "Sturm"
+    },
+    {
+      "nr": 45,
+      "name": "Miloš Luković",
+      "kurz": "Luković",
+      "position": "Sturm"
+    }
+  ]
+}
