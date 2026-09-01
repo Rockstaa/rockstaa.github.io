@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Firebase Vorlage</title>
+<style>
+  :root {
+    --bg: #fbfbfa;
+    --fg: #1c1c1a;
+    --muted: #6b6b64;
+    --line: #dedcd5;
+    --accent: #2f5d50;
+    --danger: #a33a2c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 2rem 1.25rem;
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--fg); background: var(--bg);
+  }
+  main { max-width: 42rem; margin: 0 auto; }
+  h1 { font-size: 1.4rem; font-weight: 600; margin: 0 0 .25rem; }
+  #status { color: var(--muted); font-size: .875rem; margin: 0 0 1.75rem; }
+
+  form { display: flex; gap: .5rem; margin-bottom: 1.5rem; }
+  input, button {
+    font: inherit; padding: .55rem .75rem;
+    border: 1px solid var(--line); border-radius: 4px; background: #fff;
+  }
+  input { flex: 1; min-width: 0; }
+  input:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 1px;
+  }
+  button { background: var(--accent); color: #fff; border-color: var(--accent); cursor: pointer; }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+
+  ul { list-style: none; margin: 0; padding: 0; }
+  li {
+    display: flex; align-items: baseline; gap: .75rem;
+    padding: .7rem 0; border-bottom: 1px solid var(--line);
+  }
+  li .text { flex: 1; }
+  li time { color: var(--muted); font-size: .8125rem; white-space: nowrap; }
+  li button {
+    background: none; color: var(--danger); border: none;
+    padding: .1rem .35rem; font-size: .8125rem;
+  }
+  .empty, .error { color: var(--muted); font-size: .9375rem; padding: 1rem 0; }
+  .error { color: var(--danger); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Einträge</h1>
+  <p id="status">Verbinde…</p>
+
+  <form id="form">
+    <input id="text" placeholder="Neuer Eintrag" maxlength="200" required disabled>
+    <button id="submit" type="submit" disabled>Hinzufügen</button>
+  </form>
+
+  <div id="error" class="error" hidden></div>
+  <ul id="liste"></ul>
+  <p id="empty" class="empty" hidden>Noch nichts da. Schreib den ersten Eintrag.</p>
+</main>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js';
+import { getAuth, signInAnonymously, onAuthStateChanged }
+  from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js';
+import {
+  getFirestore, collection, addDoc, deleteDoc, doc,
+  query, where, orderBy, onSnapshot, serverTimestamp
+} from 'https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js';
+
+// --- Konfiguration aus der Firebase Console (Projekteinstellungen -> Web-App) ---
+// Diese Werte sind oeffentlich, das ist so vorgesehen. Der Schutz liegt in den Rules.
+const firebaseConfig = {
+  apiKey: "AIzaSyBBkTewn7MWQj2lht03OKLkjf-2ZlP8ctU",
+  authDomain: "githubpages-fafac.firebaseapp.com",
+  projectId: "githubpages-fafac",
+  storageBucket: "githubpages-fafac.firebasestorage.app",
+  messagingSenderId: "55787674207",
+  appId: "1:55787674207:web:f005c00bc97138d540d9ea",
+  measurementId: "G-FHDK9RX513"
+};
+
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+const $ = id => document.getElementById(id);
+const statusEl = $('status'), listeEl = $('liste'), emptyEl = $('empty'),
+      errorEl  = $('error'),  textEl  = $('text'),  submitEl = $('submit');
+
+let uid = null, unsubscribe = null;
+
+function zeigeFehler(e) {
+  console.error(e);
+  errorEl.textContent = e.code === 'permission-denied'
+    ? 'Zugriff verweigert. Pruef die Security Rules in der Firebase Console.'
+    : `Fehler: ${e.message}`;
+  errorEl.hidden = false;
+}
+
+// Erst wenn der Auth-Status feststeht, darf auf Firestore zugegriffen werden.
+// Direkt nach getAuth() ist auth.currentUser noch null.
+onAuthStateChanged(auth, user => {
+  if (unsubscribe) { unsubscribe(); unsubscribe = null; }
+
+  if (!user) {
+    uid = null;
+    statusEl.textContent = 'Nicht angemeldet.';
+    textEl.disabled = submitEl.disabled = true;
+    return;
+  }
+
+  uid = user.uid;
+  statusEl.textContent = `Angemeldet (${uid.slice(0, 8)}…)`;
+  textEl.disabled = submitEl.disabled = false;
+  beobachteEintraege();
+});
+
+signInAnonymously(auth).catch(zeigeFehler);
+
+function beobachteEintraege() {
+  const q = query(
+    collection(db, 'eintraege'),
+    where('uid', '==', uid),
+    orderBy('erstelltAm', 'desc')
+  );
+
+  unsubscribe = onSnapshot(q, snap => {
+    errorEl.hidden = true;
+    listeEl.replaceChildren();
+    emptyEl.hidden = snap.size > 0;
+
+    snap.forEach(d => listeEl.appendChild(zeile(d.id, d.data())));
+  }, zeigeFehler);
+}
+
+function zeile(id, data) {
+  const li = document.createElement('li');
+
+  const span = document.createElement('span');
+  span.className = 'text';
+  span.textContent = data.text;              // textContent, nicht innerHTML
+
+  const time = document.createElement('time');
+  // erstelltAm ist kurz null, solange der Server-Timestamp noch nicht zurueck ist
+  time.textContent = data.erstelltAm?.toDate().toLocaleString('de-DE', {
+    day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
+  }) ?? '…';
+
+  const del = document.createElement('button');
+  del.type = 'button';
+  del.textContent = 'Löschen';
+  del.setAttribute('aria-label', `Eintrag "${data.text}" löschen`);
+  del.onclick = () => deleteDoc(doc(db, 'eintraege', id)).catch(zeigeFehler);
+
+  li.append(span, time, del);
+  return li;
+}
+
+$('form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const text = textEl.value.trim();
+  if (!text || !uid) return;
+
+  submitEl.disabled = true;
+  try {
+    await addDoc(collection(db, 'eintraege'), {
+      text,
+      uid,
+      erstelltAm: serverTimestamp()
+    });
+    textEl.value = '';
+  } catch (err) {
+    zeigeFehler(err);
+  } finally {
+    submitEl.disabled = false;
+    textEl.focus();
+  }
+});
+</script>
+</body>
+</html>
