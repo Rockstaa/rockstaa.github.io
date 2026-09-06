@@ -125,6 +125,16 @@
   .none{color:#8A929E;font-size:15px;padding:10px 8px}
 
   .nav{margin-top:0;margin-bottom:12px}
+  .mday{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+  .mday .step{flex:0 0 44px;font-family:var(--display);font-size:20px;padding:10px 0;
+    background:var(--ink-2);border:1px solid var(--line);color:#C6CCD4;border-radius:10px}
+  .mday .step:disabled{opacity:.35}
+  .mlabel{flex:1;text-align:center;line-height:1.25}
+  .mlabel b{display:block;font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:.04em}
+  .mlabel span{font-size:13px;color:#8A929E;text-transform:uppercase;letter-spacing:.1em}
+  .mlabel em{font-style:normal;color:var(--red)}
+  .g{cursor:pointer}
+  .g.sel{background:#22171A;box-shadow:inset 3px 0 0 var(--red)}
   .gsec{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8A929E;margin:16px 0 8px}
   .glist{background:var(--ink-2);border:1px solid var(--line);border-radius:12px;overflow:hidden}
   .g{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #22262D}
@@ -168,6 +178,12 @@
 </div>
 
 <div id="viewXI">
+
+<div class="mday" id="mday" hidden>
+  <button class="step" id="mprev" aria-label="Vorheriger Spieltag">‹</button>
+  <div class="mlabel" id="mlabel"></div>
+  <button class="step" id="mnext" aria-label="Nächster Spieltag">›</button>
+</div>
 
 <div class="panel">
   <div class="grid">
@@ -639,6 +655,7 @@ function toHash(){
   p.set('o', $('#opp').value);
   p.set('t', ($('#th').value||'0')+'-'+($('#ta').value||'0'));
   p.set('s', $('#sub').value);
+  if(games[mi]) p.set('m', matchId(games[mi]));
   return p.toString();
 }
 function fromHash(){
@@ -657,7 +674,9 @@ function fromHash(){
   if(p.get('o')) $('#opp').value = p.get('o');
   if(p.get('t')){ const [a,b]=p.get('t').split('-'); $('#th').value=a; $('#ta').value=b; }
   if(p.get('s')) $('#sub').value = p.get('s');
+  if(p.get('m')) linkMatch = p.get('m');
 }
+let linkMatch = null;
 $('#link').onclick = async ()=>{
   const url = location.href.split('#')[0] + '#' + toHash();
   try{ await navigator.clipboard.writeText(url); $('#link').textContent='Kopiert'; }
@@ -689,26 +708,48 @@ function ladeSpiele(){
   return gamesPromise;
 }
 
-async function loadNextMatch(){
-  const st = $('#status');
-  st.textContent = 'Lade nächstes Spiel …';
-  const games = await ladeSpiele();
-  if(!games.length){ st.textContent = 'Spielplan nicht erreichbar — Gegner bitte von Hand eintragen.'; return; }
-  const now = Date.now();
-  const next = games.filter(g => !v(g,'matchIsFinished') && when(g) > now - 3*3600e3)[0];
-  if(!next){ st.textContent = 'Kein kommendes Spiel gefunden.'; return; }
-  const home = /kaiserslautern/i.test(v(v(next,'team1'),'teamName')||'');
-  const foe = home ? v(next,'team2') : v(next,'team1');
-  const foeName = v(foe,'shortName') || v(foe,'teamName') || '';
+let games = [], mi = -1;
+const drafts = {};   // pro Spiel eine Aufstellung, solange die Seite offen ist
+
+const matchId = g => v(g,'matchID') != null ? v(g,'matchID') : when(g);
+const istHeim = g => /kaiserslautern/i.test(v(v(g,'team1'),'teamName')||'');
+const gegner  = g => istHeim(g) ? v(g,'team2') : v(g,'team1');
+const gegnerName = g => v(gegner(g),'shortName') || v(gegner(g),'teamName') || '';
+
+function setForm(val){
+  $('#form').value = val;
+  const opt = [...$('#formSel').options].find(o=>o.value===val);
+  if(opt){ $('#formSel').value = val; $('#form').hidden = true; }
+  else { $('#formSel').value = 'custom'; $('#form').hidden = false; }
+}
+
+function saveDraft(){
+  const g = games[mi];
+  if(!g) return;
+  drafts[matchId(g)] = {
+    lineup: lineup.map(p => p && p.slice()),
+    bench:  bench.map(p => p && p.slice()),
+    form: $('#form').value, th: $('#th').value, ta: $('#ta').value
+  };
+}
+
+function setMatch(i){
+  if(!games.length) return;
+  saveDraft();
+  mi = Math.max(0, Math.min(games.length-1, i));
+  const g = games[mi];
+
+  const foeName = gegnerName(g), home = istHeim(g);
+  const d = new Date(when(g));
+  const tag = d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const zeit = d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+  const grp = v(v(g,'group'),'groupName') || '';
   $('#opp').value = foeName;
-  const d = new Date(when(next));
-  const day = d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'});
-  const time = d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
-  const grp = v(v(next,'group'),'groupName');
-  $('#sub').value = (grp ? grp+' · ' : '') + day + ' · ' + time + ' Uhr · ' + (home?'Heim':'Auswärts');
-  st.textContent = (home?'Heimspiel gegen ':'Auswärts bei ') + foeName;
+  $('#sub').value = (grp ? grp+' · ' : '') + tag + ' · ' + zeit + ' Uhr · ' + (home?'Heim':'Auswärts');
+
+  // Wappen für den Bildexport
   oppImg = null;
-  const icon = v(foe,'teamIconUrl');
+  const icon = v(gegner(g),'teamIconUrl');
   if(icon){
     const im = new Image();
     im.crossOrigin = 'anonymous';
@@ -716,6 +757,49 @@ async function loadNextMatch(){
     im.onerror = ()=>{ oppImg = null; };
     im.src = icon;
   }
+
+  // Entwurf zu diesem Spiel zurückholen; sonst bleibt die aktuelle Elf stehen
+  const alt = drafts[matchId(g)];
+  if(alt){
+    lineup = alt.lineup.map(p => p && p.slice());
+    bench  = alt.bench.map(p => p && p.slice());
+    setForm(alt.form);
+    $('#th').value = alt.th; $('#ta').value = alt.ta;
+  }
+
+  const e = v(g,'matchIsFinished') ? endstand(g) : null;
+  $('#status').textContent = e
+    ? 'Endstand ' + e[0] + ':' + e[1] + (drafts[matchId(g)] ? ' · Entwurf gespeichert' : '')
+    : (home ? 'Heimspiel gegen ' : 'Auswärts bei ') + foeName;
+
+  renderMday();
+  render();
+}
+
+function renderMday(){
+  const g = games[mi];
+  if(!g){ $('#mday').hidden = true; return; }
+  $('#mday').hidden = false;
+  const grp = v(v(g,'group'),'groupName') || 'Spieltag';
+  const d = new Date(when(g));
+  const tag = d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'});
+  $('#mlabel').innerHTML = '<b>' + (istHeim(g)?'':'bei ') + gegnerName(g) + '</b>' +
+    '<span>' + grp + ' · ' + tag + (drafts[matchId(g)] ? ' · <em>Entwurf</em>' : '') + '</span>';
+  $('#mprev').disabled = mi <= 0;
+  $('#mnext').disabled = mi >= games.length-1;
+}
+$('#mprev').onclick = ()=>setMatch(mi-1);
+$('#mnext').onclick = ()=>setMatch(mi+1);
+
+async function loadNextMatch(){
+  const st = $('#status');
+  st.textContent = 'Lade Spielplan …';
+  games = await ladeSpiele();
+  if(!games.length){ st.textContent = 'Spielplan nicht erreichbar — Gegner bitte von Hand eintragen.'; return; }
+  const now = Date.now();
+  let i = games.findIndex(g => !v(g,'matchIsFinished') && when(g) > now - 3*3600e3);
+  if(i < 0) i = games.length-1;
+  setMatch(i);
 }
 
 /* ---- Ansicht: Spiele ---- */
@@ -737,7 +821,8 @@ function spielZeile(g){
     res = '<div class="res">'+zeit+'<small>'+datum+'</small></div>';
   }
   const icon = v(foe,'teamIconUrl');
-  return '<div class="g">'+
+  const idx = games.indexOf(g);
+  return '<div class="g'+(idx===mi?' sel':'')+'" data-i="'+idx+'">'+
     '<div class="dot '+dot+'"></div>'+
     (icon ? '<img src="'+icon+'" alt="" loading="lazy">' : '')+
     '<div class="who"><b>'+(v(foe,'shortName')||v(foe,'teamName')||'')+'</b>'+
@@ -747,7 +832,7 @@ function spielZeile(g){
 
 async function renderGames(){
   const past = $('#gpast'), next = $('#gnext');
-  const games = await ladeSpiele();
+  games = await ladeSpiele();
   if(!games.length){
     past.innerHTML = '<div class="none">Spielplan nicht erreichbar.</div>';
     next.innerHTML = '';
@@ -759,6 +844,14 @@ async function renderGames(){
                    '<div class="none">Noch keine Ergebnisse.</div>';
   next.innerHTML = offen.slice(0,6).map(spielZeile).join('') ||
                    '<div class="none">Keine weiteren Spiele.</div>';
+
+  // Tippen auf ein Spiel öffnet die Aufstellung dazu
+  document.querySelectorAll('#viewGames .g').forEach(el => el.onclick = ()=>{
+    const i = +el.dataset.i;
+    if(i < 0) return;
+    setMatch(i);
+    document.querySelector('#nav button[data-v="xi"]').click();
+  });
 }
 
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{
@@ -1030,8 +1123,15 @@ const ausLink = location.hash.length > 1;
 fromHash();
 render();
 loadKader();
-if(ausLink) $('#status').textContent = 'Aufstellung aus geteiltem Link';
-else loadNextMatch();
+if(ausLink){
+  $('#status').textContent = 'Aufstellung aus geteiltem Link';
+  // Spielplan trotzdem holen, damit sich durch die Spieltage blättern lässt
+  ladeSpiele().then(gs=>{
+    games = gs;
+    const i = games.findIndex(g => String(matchId(g)) === String(linkMatch));
+    if(i > -1){ mi = i; renderMday(); }
+  });
+} else loadNextMatch();
 </script>
 </body>
 </html>
