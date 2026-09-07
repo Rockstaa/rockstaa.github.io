@@ -24,7 +24,12 @@
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;background:var(--ink);color:#fff;font-family:var(--cond);font-size:17px}
-  body{padding:14px 12px 40px;max-width:560px;margin:0 auto}
+  /* Im Standalone-Modus zeichnet iOS unter die Statusleiste. Ohne diese
+     Abstände liegen Uhrzeit und Akku auf dem Kopfbereich. Voraussetzung ist
+     viewport-fit=cover im Meta-Tag. */
+  body{max-width:560px;margin:0 auto;
+    padding:calc(14px + env(safe-area-inset-top)) calc(12px + env(safe-area-inset-right))
+            calc(40px + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left))}
 
   .top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
   .top img{width:40px;height:40px}
