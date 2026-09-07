@@ -320,6 +320,7 @@ const SLEEVE_L= 'M27 4 L4 19 L13 40 L27 34 Z';
 const SLEEVE_R= 'M73 4 L96 19 L87 40 L73 34 Z';
 const COLLAR  = 'M41 4 C43 15 57 15 59 4';
 const HEM     = 'M25.6 81 L74.4 81 L75 88 L25 88 Z';
+const BINDE   = 'M6 20 L14 39 L20 36 L12 17 Z';   // wird auf den linken Ärmel beschnitten
 
 let lineup = [
   [1,'Krahl'],[4,'Gyamfi'],[33,'Elvedi'],[14,'Rasmussen'],
@@ -327,6 +328,7 @@ let lineup = [
   [7,'Ritter'],[15,'Skyttä'],[9,'Prtajin']
 ];
 let bench = [null,null,null,null,null];
+let capNr = null;   // Rückennummer des Kapitäns
 let active = {a:'xi', i:0};
 let fmt = '45';
 let lastGoodForm = '3-4-2-1';
@@ -414,14 +416,18 @@ function istTorwart(p){
   return !!(gr && gr.p.some(x=>x[0]===p[0]));
 }
 
-function jersey(num, gk){
+let svgId = 0;
+function jersey(num, gk, cap){
   const s = String(num==null?'':num);
   const k = gk ? KIT.tor : KIT.feld;
+  const id = 'sl'+(++svgId);
   return '<svg viewBox="0 0 100 92" aria-hidden="true">'+
+    (cap ? '<defs><clipPath id="'+id+'"><path d="'+SLEEVE_L+'"/></clipPath></defs>' : '')+
     '<path d="'+SHIRT+'" fill="'+k.body+'"/>'+
     '<path d="'+SLEEVE_L+'" fill="'+k.arm+'"/><path d="'+SLEEVE_R+'" fill="'+k.arm+'"/>'+
     '<path d="'+HEM+'" fill="'+k.hem+'" opacity=".45"/>'+
     '<path d="'+COLLAR+'" fill="none" stroke="'+k.collar+'" stroke-width="2.4" stroke-linecap="round"/>'+
+    (cap ? '<path d="'+BINDE+'" fill="#fff" clip-path="url(#'+id+')"/>' : '')+
     (s ? '<text class="num" x="50" y="62" font-size="38" fill="'+k.num+'" text-anchor="middle" textLength="'+(s.length>1?44:22)+'" lengthAdjust="spacingAndGlyphs">'+s+'</text>' : '')+
     '</svg>';
 }
@@ -441,7 +447,7 @@ function render(){
     d.dataset.i = i;
     d.style.left = (4 + p.x*0.92) + '%';
     d.style.top = p.y.toFixed(2) + '%';
-    d.innerHTML = jersey(pl?pl[0]:'', i===0 || istTorwart(pl)) +
+    d.innerHTML = jersey(pl?pl[0]:'', i===0 || istTorwart(pl), !!(pl && pl[0]===capNr)) +
                   '<span class="plate">'+(pl?pl[1]:role.s)+'</span>';
     $('#pitch').appendChild(d);
   });
@@ -449,7 +455,7 @@ function render(){
   bench.forEach((pl,i)=>{
     const d = document.createElement('div');
     d.className = 'bslot' + (pl?'':' empty');
-    d.innerHTML = jersey(pl?pl[0]:'', istTorwart(pl)) +
+    d.innerHTML = jersey(pl?pl[0]:'', istTorwart(pl), !!(pl && pl[0]===capNr)) +
                   '<div class="bn">'+(pl?pl[1]:'frei')+'</div>';
     d.onclick = ()=>openSheet('b', i);
     b.appendChild(d);
@@ -589,6 +595,15 @@ function paint(filter){
     arr(active.a)[active.i] = [nr||'', name.trim()||'?']; close();
   };
   list.appendChild(free);
+  const hier = arr(active.a)[active.i];
+  if(hier){
+    const cap = document.createElement('div');
+    const ist = hier[0] === capNr;
+    cap.className='p';
+    cap.innerHTML = '<span class="n">C</span><span>'+(ist?'Kapitänsbinde abnehmen':'Zum Kapitän machen')+'</span>';
+    cap.onclick = ()=>{ capNr = ist ? null : hier[0]; close(); };
+    list.appendChild(cap);
+  }
   if(arr(active.a)[active.i]){
     const empty = document.createElement('div');
     empty.className='p'; empty.innerHTML='<span class="n">×</span><span>Platz leeren</span>';
@@ -642,7 +657,10 @@ $('#formSel').onchange = ()=>{
   else { $('#form').value = v; render(); }
 };
 $('#form').oninput = render;
-$('#clear').onclick = ()=>{ lineup=Array(11).fill(null); bench=Array(5).fill(null); render(); $('#out').innerHTML=''; };
+$('#clear').onclick = ()=>{
+  lineup=Array(11).fill(null); bench=Array(5).fill(null); capNr=null;
+  render(); $('#out').innerHTML='';
+};
 document.querySelectorAll('#fmt button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('#fmt button').forEach(x=>x.classList.remove('on'));
   b.classList.add('on'); fmt=b.dataset.f;
@@ -668,6 +686,7 @@ function toHash(){
   p.set('o', $('#opp').value);
   p.set('t', ($('#th').value||'0')+'-'+($('#ta').value||'0'));
   p.set('s', $('#sub').value);
+  if(capNr != null) p.set('c', capNr);
   if(games[mi]) p.set('m', matchId(games[mi]));
   return p.toString();
 }
@@ -687,6 +706,7 @@ function fromHash(){
   if(p.get('o')) $('#opp').value = p.get('o');
   if(p.get('t')){ const [a,b]=p.get('t').split('-'); $('#th').value=a; $('#ta').value=b; }
   if(p.get('s')) $('#sub').value = p.get('s');
+  if(p.get('c')){ const c = p.get('c'); capNr = BY_NR[+c] ? +c : c; }
   if(p.get('m')) linkMatch = p.get('m');
 }
 let linkMatch = null;
@@ -742,7 +762,7 @@ function saveDraft(){
   drafts[matchId(g)] = {
     lineup: lineup.map(p => p && p.slice()),
     bench:  bench.map(p => p && p.slice()),
-    form: $('#form').value, th: $('#th').value, ta: $('#ta').value
+    form: $('#form').value, th: $('#th').value, ta: $('#ta').value, cap: capNr
   };
 }
 
@@ -778,6 +798,7 @@ function setMatch(i){
     bench  = alt.bench.map(p => p && p.slice());
     setForm(alt.form);
     $('#th').value = alt.th; $('#ta').value = alt.ta;
+    capNr = alt.cap != null ? alt.cap : null;
   }
 
   const e = v(g,'matchIsFinished') ? endstand(g) : null;
@@ -881,7 +902,7 @@ document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{
 /* ---------------- Canvas ---------------- */
 const RED='#E30613', RED_MID='#C10510', INK='#0E1013';
 const P_SHIRT=new Path2D(SHIRT), P_SL=new Path2D(SLEEVE_L), P_SR=new Path2D(SLEEVE_R),
-      P_HEM=new Path2D(HEM), P_COL=new Path2D(COLLAR);
+      P_HEM=new Path2D(HEM), P_COL=new Path2D(COLLAR), P_CAP=new Path2D(BINDE);
 const D='"Archivo Black","Arial Black",Impact,sans-serif';
 const C='"Barlow Condensed","Arial Narrow",Arial,sans-serif';
 
@@ -945,7 +966,7 @@ function drawLogo(ctx, img, cx, cy, box){
   return true;
 }
 
-function drawJersey(ctx,cx,cy,w,num,gk){
+function drawJersey(ctx,cx,cy,w,num,gk,cap){
   const h=w*0.92, k = gk ? KIT.tor : KIT.feld;
   ctx.save();
   ctx.translate(cx-w/2, cy-h/2);
@@ -958,6 +979,11 @@ function drawJersey(ctx,cx,cy,w,num,gk){
     ctx.fillStyle=k.arm; ctx.fill(P_SL); ctx.fill(P_SR);
     ctx.globalAlpha=.45; ctx.fillStyle=k.hem; ctx.fill(P_HEM); ctx.globalAlpha=1;
     ctx.strokeStyle=k.collar; ctx.lineWidth=2.4; ctx.lineCap='round'; ctx.stroke(P_COL);
+    if(cap){
+      ctx.save(); ctx.clip(P_SL);     // Binde bleibt im Ärmel
+      ctx.fillStyle='#fff'; ctx.fill(P_CAP);
+      ctx.restore();
+    }
   }
   ctx.restore();
   if(num!==null && num!==''){
@@ -1051,7 +1077,7 @@ async function draw(){
     const dense=rowCount[raw[i].y]>=5;
     const JW=dense?JWdense:JWbase;
     const cx=(0.04+p.x/100*0.92)*PW, cy=PY+p.y/100*PH;
-    drawJersey(ctx,cx,cy,JW,pl?pl[0]:null, i===0 || istTorwart(pl));
+    drawJersey(ctx,cx,cy,JW,pl?pl[0]:null, i===0 || istTorwart(pl), !!(pl && pl[0]===capNr));
     const name=(pl?pl[1]:(rl[i]?rl[i].s:'—')).toUpperCase();
     if(pl) plate(ctx,cx,cy+JW*0.44,name,(dense?152:184)*scale,27*scale,W);
     else {
@@ -1071,7 +1097,7 @@ async function draw(){
     const used = bench.filter(Boolean);
     used.forEach((pl,i)=>{
       const cx = (i+0.5)/used.length*W;
-      drawJersey(ctx,cx,BY+86,74,pl[0], istTorwart(pl));
+      drawJersey(ctx,cx,BY+86,74,pl[0], istTorwart(pl), pl[0]===capNr);
       ctx.font='700 20px '+C; ctx.fillStyle='#C6CCD4'; ctx.textAlign='center';
       const nm=pl[1].toUpperCase();
       fit(ctx,nm,W/used.length-20,20,C,12,'700');
