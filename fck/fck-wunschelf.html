@@ -311,6 +311,10 @@ async function loadKader(){
 
 const XSPREAD = {1:[50],2:[32,68],3:[19,50,81],4:[12,37.5,62.5,88],5:[9,29.5,50,70.5,91]};
 
+const KIT = {
+  feld: {body:'#E30613', arm:'#C10510', hem:'#A80410', num:'#fff',   collar:'rgba(255,255,255,.85)'},
+  tor:  {body:'#F5C518', arm:'#DBA800', hem:'#B98D00', num:'#141414', collar:'rgba(20,20,20,.5)'}
+};
 const SHIRT   = 'M27 4 L41 4 C43 15 57 15 59 4 L73 4 L96 19 L87 40 L73 34 L75 88 L25 88 L27 34 L13 40 L4 19 Z';
 const SLEEVE_L= 'M27 4 L4 19 L13 40 L27 34 Z';
 const SLEEVE_R= 'M73 4 L96 19 L87 40 L73 34 Z';
@@ -404,14 +408,21 @@ function layout(f){
     '<i style="left:35.5%;right:35.5%;top:42%;height:16%;border-radius:50%"></i>');
 })();
 
-function jersey(num, small){
+function istTorwart(p){
+  if(!p) return false;
+  const gr = SQUAD.find(g=>g.g==='Tor');
+  return !!(gr && gr.p.some(x=>x[0]===p[0]));
+}
+
+function jersey(num, gk){
   const s = String(num==null?'':num);
+  const k = gk ? KIT.tor : KIT.feld;
   return '<svg viewBox="0 0 100 92" aria-hidden="true">'+
-    '<path d="'+SHIRT+'" fill="#E30613"/>'+
-    '<path d="'+SLEEVE_L+'" fill="#C10510"/><path d="'+SLEEVE_R+'" fill="#C10510"/>'+
-    '<path d="'+HEM+'" fill="#A80410" opacity=".45"/>'+
-    '<path d="'+COLLAR+'" fill="none" stroke="#fff" stroke-width="2.4" stroke-opacity=".85" stroke-linecap="round"/>'+
-    (s ? '<text class="num" x="50" y="62" font-size="38" fill="#fff" text-anchor="middle" textLength="'+(s.length>1?44:22)+'" lengthAdjust="spacingAndGlyphs">'+s+'</text>' : '')+
+    '<path d="'+SHIRT+'" fill="'+k.body+'"/>'+
+    '<path d="'+SLEEVE_L+'" fill="'+k.arm+'"/><path d="'+SLEEVE_R+'" fill="'+k.arm+'"/>'+
+    '<path d="'+HEM+'" fill="'+k.hem+'" opacity=".45"/>'+
+    '<path d="'+COLLAR+'" fill="none" stroke="'+k.collar+'" stroke-width="2.4" stroke-linecap="round"/>'+
+    (s ? '<text class="num" x="50" y="62" font-size="38" fill="'+k.num+'" text-anchor="middle" textLength="'+(s.length>1?44:22)+'" lengthAdjust="spacingAndGlyphs">'+s+'</text>' : '')+
     '</svg>';
 }
 
@@ -430,14 +441,16 @@ function render(){
     d.dataset.i = i;
     d.style.left = (4 + p.x*0.92) + '%';
     d.style.top = p.y.toFixed(2) + '%';
-    d.innerHTML = jersey(pl?pl[0]:'') + '<span class="plate">'+(pl?pl[1]:role.s)+'</span>';
+    d.innerHTML = jersey(pl?pl[0]:'', i===0 || istTorwart(pl)) +
+                  '<span class="plate">'+(pl?pl[1]:role.s)+'</span>';
     $('#pitch').appendChild(d);
   });
   const b = $('#bench'); b.innerHTML='';
   bench.forEach((pl,i)=>{
     const d = document.createElement('div');
     d.className = 'bslot' + (pl?'':' empty');
-    d.innerHTML = jersey(pl?pl[0]:'') + '<div class="bn">'+(pl?pl[1]:'frei')+'</div>';
+    d.innerHTML = jersey(pl?pl[0]:'', istTorwart(pl)) +
+                  '<div class="bn">'+(pl?pl[1]:'frei')+'</div>';
     d.onclick = ()=>openSheet('b', i);
     b.appendChild(d);
   });
@@ -932,24 +945,24 @@ function drawLogo(ctx, img, cx, cy, box){
   return true;
 }
 
-function drawJersey(ctx,cx,cy,w,num){
-  const h=w*0.92;
+function drawJersey(ctx,cx,cy,w,num,gk){
+  const h=w*0.92, k = gk ? KIT.tor : KIT.feld;
   ctx.save();
   ctx.translate(cx-w/2, cy-h/2);
   ctx.scale(w/100, h/92);
   ctx.shadowColor='rgba(0,0,0,.45)'; ctx.shadowBlur=18; ctx.shadowOffsetY=9;
-  ctx.fillStyle = num!==null ? RED : 'rgba(227,6,19,.4)';
+  ctx.fillStyle = num!==null ? k.body : 'rgba(227,6,19,.4)';
   ctx.fill(P_SHIRT);
   ctx.shadowColor='transparent';
   if(num!==null){
-    ctx.fillStyle=RED_MID; ctx.fill(P_SL); ctx.fill(P_SR);
-    ctx.globalAlpha=.45; ctx.fillStyle='#A80410'; ctx.fill(P_HEM); ctx.globalAlpha=1;
-    ctx.strokeStyle='rgba(255,255,255,.85)'; ctx.lineWidth=2.4; ctx.lineCap='round'; ctx.stroke(P_COL);
+    ctx.fillStyle=k.arm; ctx.fill(P_SL); ctx.fill(P_SR);
+    ctx.globalAlpha=.45; ctx.fillStyle=k.hem; ctx.fill(P_HEM); ctx.globalAlpha=1;
+    ctx.strokeStyle=k.collar; ctx.lineWidth=2.4; ctx.lineCap='round'; ctx.stroke(P_COL);
   }
   ctx.restore();
   if(num!==null && num!==''){
     const s=String(num);
-    ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillStyle='#fff';
+    ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillStyle=k.num;
     const fs=fit(ctx,s,w*(s.length>1?0.46:0.26),w*0.40,D,14);
     ctx.font=fs+'px '+D;
     ctx.fillText(s,cx,cy+h*0.16);
@@ -1038,7 +1051,7 @@ async function draw(){
     const dense=rowCount[raw[i].y]>=5;
     const JW=dense?JWdense:JWbase;
     const cx=(0.04+p.x/100*0.92)*PW, cy=PY+p.y/100*PH;
-    drawJersey(ctx,cx,cy,JW,pl?pl[0]:null);
+    drawJersey(ctx,cx,cy,JW,pl?pl[0]:null, i===0 || istTorwart(pl));
     const name=(pl?pl[1]:(rl[i]?rl[i].s:'—')).toUpperCase();
     if(pl) plate(ctx,cx,cy+JW*0.44,name,(dense?152:184)*scale,27*scale,W);
     else {
@@ -1058,7 +1071,7 @@ async function draw(){
     const used = bench.filter(Boolean);
     used.forEach((pl,i)=>{
       const cx = (i+0.5)/used.length*W;
-      drawJersey(ctx,cx,BY+86,74,pl[0]);
+      drawJersey(ctx,cx,BY+86,74,pl[0], istTorwart(pl));
       ctx.font='700 20px '+C; ctx.fillStyle='#C6CCD4'; ctx.textAlign='center';
       const nm=pl[1].toUpperCase();
       fit(ctx,nm,W/used.length-20,20,C,12,'700');
