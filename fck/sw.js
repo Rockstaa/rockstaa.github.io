@@ -1,17 +1,21 @@
 /* FCK Wunschelf — Service Worker
  *
- * Drei Strategien, je nach dem, was die Anfrage holt:
- *   App-Dateien   cache first   ändern sich nur beim Deployment
- *   kader.json    network first  soll frisch sein, muss aber offline da sein
- *   Spielplan     network first  dito, offline zeigen wir den letzten Stand
- *   Schriften     stale while revalidate
+ * Wichtigste Regel hier: die Seite selbst kommt NETZWERKORIENTIERT.
+ * Eine cache-first ausgelieferte index.html führt sonst dazu, dass
+ * installierte Nutzer dauerhaft auf einer alten Fassung sitzen bleiben —
+ * auch dann, wenn längst eine neue hochgeladen ist.
  *
- * Beim Ausrollen einer neuen Fassung VERSION hochzählen. Der alte Cache wird
- * dann in activate weggeräumt.
+ *   Seite             network first   frisch, offline aus dem Cache
+ *   Icons, Manifest   stale while revalidate
+ *   kader.json        network first
+ *   Spielplan         network first, offline der letzte Stand
+ *   Schriften         stale while revalidate
+ *
+ * VERSION bei jeder Änderung an ausgelieferten Dateien hochzählen.
  */
-const VERSION = 'v1.2.0';
-const APP   = 'app-'   + VERSION;   // eigene Dateien
-const DATEN = 'daten-' + VERSION;   // Kader und Spielplan
+const VERSION = 'v1.3.0';
+const APP   = 'app-'   + VERSION;
+const DATEN = 'daten-' + VERSION;
 const FONTS = 'fonts-' + VERSION;
 
 const APP_DATEIEN = [
@@ -24,10 +28,11 @@ const APP_DATEIEN = [
 
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(APP)
-      // einzeln, damit eine fehlende Datei nicht die ganze Installation kippt
-      .then(c => Promise.all(APP_DATEIEN.map(u => c.add(u).catch(() => null))))
-      .then(() => self.skipWaiting())
+    caches.open(APP).then(c => Promise.all(
+      // cache: 'reload' umgeht den HTTP-Cache des Browsers. Ohne das kann die
+      // Installation die alte Fassung in den neuen Cache übernehmen.
+      APP_DATEIEN.map(u => c.add(new Request(u, {cache: 'reload'})).catch(() => null))
+    )).then(() => self.skipWaiting())
   );
 });
 
@@ -38,6 +43,10 @@ self.addEventListener('activate', e => {
       .then(ks => Promise.all(ks.filter(k => !behalten.includes(k)).map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
+});
+
+self.addEventListener('message', e => {
+  if(e.data === 'skipWaiting') self.skipWaiting();
 });
 
 async function networkFirst(req, cacheName){
@@ -53,18 +62,9 @@ async function networkFirst(req, cacheName){
   }
 }
 
-async function cacheFirst(req, cacheName){
-  const cache = await caches.open(cacheName);
-  const hit = await cache.match(req, {ignoreSearch: true});
-  if(hit) return hit;
-  const res = await fetch(req);
-  if(res && res.ok) cache.put(req, res.clone());
-  return res;
-}
-
 async function staleWhileRevalidate(req, cacheName){
   const cache = await caches.open(cacheName);
-  const hit = await cache.match(req);
+  const hit = await cache.match(req, {ignoreSearch: true});
   const frisch = fetch(req).then(res => {
     if(res && res.ok) cache.put(req, res.clone());
     return res;
@@ -75,34 +75,31 @@ async function staleWhileRevalidate(req, cacheName){
 self.addEventListener('fetch', e => {
   const req = e.request;
   if(req.method !== 'GET') return;
-
   const url = new URL(req.url);
 
-  // Spielplan, Tabelle: frisch bevorzugt, offline der letzte Stand
   if(url.hostname === 'api.openligadb.de'){
     e.respondWith(networkFirst(req, DATEN));
     return;
   }
 
-  // Schriften von Google
   if(url.hostname.endsWith('googleapis.com') || url.hostname.endsWith('gstatic.com')){
     e.respondWith(staleWhileRevalidate(req, FONTS));
     return;
   }
 
-  // alles Fremde sonst unangetastet lassen, etwa Vereinswappen
+  // Fremdes unangetastet lassen, etwa Vereinswappen
   if(url.origin !== self.location.origin) return;
 
-  // Kader soll sich ohne neuen Service Worker aktualisieren lassen
   if(url.pathname.endsWith('/kader.json')){
     e.respondWith(networkFirst(req, DATEN));
     return;
   }
 
-  // eigene Dateien; Navigationen fallen offline auf die Startseite zurück
-  e.respondWith(
-    cacheFirst(req, APP).catch(() =>
-      req.mode === 'navigate' ? caches.match('./index.html') : Promise.reject()
-    )
-  );
+  // Die Seite selbst: immer erst das Netz fragen
+  if(req.mode === 'navigate' || url.pathname.endsWith('/') || url.pathname.endsWith('.html')){
+    e.respondWith(networkFirst(req, APP).catch(() => caches.match('./index.html')));
+    return;
+  }
+
+  e.respondWith(staleWhileRevalidate(req, APP));
 });
