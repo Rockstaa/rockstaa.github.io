@@ -85,6 +85,7 @@
   button{flex:1;font-family:var(--cond);font-weight:700;font-size:17px;letter-spacing:.06em;text-transform:uppercase;
     border:0;border-radius:10px;padding:14px 12px;background:var(--red);color:#fff;cursor:pointer}
   button.ghost{background:transparent;border:1px solid var(--line);color:#C6CCD4}
+  button:disabled{opacity:.4}
   button:active{transform:translateY(1px)}
   .seg{display:flex;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:12px}
   .seg button{border-radius:0;background:transparent;color:#8A929E;border-right:1px solid var(--line);font-size:15px;padding:11px 8px}
@@ -160,6 +161,9 @@
   .goal .min{font-family:var(--display);font-size:13px;color:var(--red);min-width:52px}
   .goal .sc{margin-left:auto;font-weight:700;color:#8A929E;letter-spacing:.05em}
   .goal .tag{font-size:12px;color:#8A929E;text-transform:uppercase;letter-spacing:.1em}
+  .goal.tipp{border-top:1px solid #22262D;margin-top:6px;padding-top:8px}
+  .bil{display:flex;gap:18px;padding:12px;font-size:15px;color:#8A929E}
+  .bil b{font-family:var(--display);font-size:19px;color:#fff;margin-right:4px}
   .goals .mk{margin-top:8px;font-size:14px;color:var(--red);font-weight:700;
     text-transform:uppercase;letter-spacing:.08em;cursor:pointer}
 
@@ -177,6 +181,15 @@
   .form{display:flex;gap:3px;margin-top:3px}
   .fd{width:7px;height:7px;border-radius:2px;background:#3A414B;display:inline-block}
   .fd.w{background:#3FA45B} .fd.d{background:#8A929E} .fd.l{background:var(--red)}
+  .lg{display:grid;grid-template-columns:1fr 62px 1fr;align-items:center;gap:6px;
+    padding:9px 12px;border-bottom:1px solid #22262D;font-size:15px}
+  .lg:last-child{border-bottom:0}
+  .lg.me{background:#22171A;font-weight:700}
+  .lg .t1{text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .lg .t2{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .lg .sc{text-align:center;font-family:var(--display);font-size:14px;color:#C6CCD4}
+  #tabmode{margin-top:0}
+
   .legende{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:13px;color:#8A929E;
     text-transform:uppercase;letter-spacing:.08em}
   .legende span{display:flex;align-items:center;gap:5px}
@@ -209,14 +222,22 @@
 </div>
 
 <div id="viewGames" hidden>
+  <div id="bilanz"></div>
   <div class="gsec">Letzte Ergebnisse</div>
   <div id="gpast" class="glist"><div class="none">Lade …</div></div>
   <div class="gsec">Kommende Spiele</div>
   <div id="gnext" class="glist"></div>
+  <div class="gsec" id="tagtitel">Der Spieltag</div>
+  <div id="gtag" class="glist"></div>
   <div class="hint">Daten von OpenLigaDB.</div>
 </div>
 
 <div id="viewTable" hidden>
+  <div class="seg" id="tabmode">
+    <button data-t="all" class="on">Gesamt</button>
+    <button data-t="home">Heim</button>
+    <button data-t="away">Auswärts</button>
+  </div>
   <div class="gsec">2. Bundesliga</div>
   <div id="gtab" class="glist"><div class="none">Lade …</div></div>
   <div class="legende">
@@ -274,6 +295,7 @@
   <button class="ghost" id="link">Link kopieren</button>
 </div>
 <div class="row">
+  <button class="ghost" id="undo" disabled>Rückgängig</button>
   <button class="ghost" id="clear">Alles leeren</button>
 </div>
 
@@ -290,7 +312,7 @@
 <canvas id="cv"></canvas>
 
 <script>
-const VERSION = '1.0.0';   // beim Ausrollen auch VERSION in sw.js hochzählen
+const VERSION = '1.1.0';   // beim Ausrollen auch VERSION in sw.js hochzählen
 const LOGO = 'data:image/png;base64,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';
 document.getElementById('crest').src = LOGO;
 const crestImg = new Image(); crestImg.src = LOGO;
@@ -383,6 +405,40 @@ let lineup = [
 ];
 let bench = [null,null,null,null,null];
 let capNr = null;   // Rückennummer des Kapitäns
+
+/* Modus der Liga an einer Stelle, statt in der Tabellenausgabe verstreut.
+   Zahlen sind Platzziffern, nicht Indizes. */
+const LIGA = { aufstieg: 2, relegation: [3, 16], abstieg: 17 };
+
+/* Speicher. Kann fehlen oder gesperrt sein - dann läuft alles wie bisher,
+   nur eben ohne Gedächtnis über den Reload hinaus. */
+const KEY = 'wunschelf.entwuerfe.v1';
+function lies(){
+  try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }
+  catch(e){ return {}; }
+}
+function schreib(obj){
+  try{ localStorage.setItem(KEY, JSON.stringify(obj)); return true; }
+  catch(e){ return false; }   // privater Modus, volles Kontingent, gesperrter Rahmen
+}
+
+/* Ein Schritt zurück reicht in der Praxis; wir halten trotzdem einige. */
+const historie = [];
+function merkeStand(){
+  historie.push(JSON.stringify({lineup, bench, capNr}));
+  if(historie.length > 20) historie.shift();
+  const b = document.getElementById('undo');
+  if(b) b.disabled = false;
+}
+function zurueck(){
+  const s = historie.pop();
+  if(!s) return;
+  const z = JSON.parse(s);
+  lineup = z.lineup; bench = z.bench; capNr = z.capNr;
+  const b = document.getElementById('undo');
+  if(b) b.disabled = !historie.length;
+  merken(); render();
+}
 let active = {a:'xi', i:0};
 let fmt = '45';
 let lastGoodForm = '3-4-2-1';
@@ -553,7 +609,9 @@ function render(){
     el=null; i0=null; moved=false; tgt=null;
     if(wasMoved){
       if(to!==null && to!==from){
+        merkeStand();
         const t=lineup[from]; lineup[from]=lineup[to]; lineup[to]=t;
+        merken();
       }
       render();
     } else if(from!==null){
@@ -611,6 +669,7 @@ function paint(filter){
     el.innerHTML = '<span class="n">'+n+'</span><span>'+full+'</span>'+label;
     el.onclick = ()=>{
       if(here){ close(); return; }
+      merkeStand();
       if(at) arr(at.a)[at.i] = arr(active.a)[active.i];
       arr(active.a)[active.i] = [n,short];
       close();
@@ -646,6 +705,7 @@ function paint(filter){
   free.onclick=()=>{
     const name = prompt('Name (wird groß dargestellt):',''); if(name===null) return;
     const nr = prompt('Rückennummer:','');
+    merkeStand();
     arr(active.a)[active.i] = [nr||'', name.trim()||'?']; close();
   };
   list.appendChild(free);
@@ -655,13 +715,13 @@ function paint(filter){
     const ist = hier[0] === capNr;
     cap.className='p';
     cap.innerHTML = '<span class="n">C</span><span>'+(ist?'Kapitänsbinde abnehmen':'Zum Kapitän machen')+'</span>';
-    cap.onclick = ()=>{ capNr = ist ? null : hier[0]; close(); };
+    cap.onclick = ()=>{ merkeStand(); capNr = ist ? null : hier[0]; close(); };
     list.appendChild(cap);
   }
   if(arr(active.a)[active.i]){
     const empty = document.createElement('div');
     empty.className='p'; empty.innerHTML='<span class="n">×</span><span>Platz leeren</span>';
-    empty.onclick=()=>{ arr(active.a)[active.i]=null; close(); };
+    empty.onclick=()=>{ merkeStand(); arr(active.a)[active.i]=null; close(); };
     list.appendChild(empty);
   }
 }
@@ -680,6 +740,7 @@ if(window.visualViewport){
 }
 
 function close(){
+  merken();
   $('#sheet').classList.remove('open');
   $('#sheet').style.top=''; $('#sheet').style.height='';
   document.body.classList.remove('locked');
@@ -704,6 +765,7 @@ function dragHandle(el){
 }
 $('#sheet').onclick = e => { if(e.target.id==='sheet') close(); };
 $('#formSel').onchange = ()=>{
+  merkeStand();
   const v = $('#formSel').value;
   const eigen = v === 'custom';
   $('#form').hidden = !eigen;
@@ -712,9 +774,12 @@ $('#formSel').onchange = ()=>{
 };
 $('#form').oninput = render;
 $('#clear').onclick = ()=>{
+  merkeStand();
   lineup=Array(11).fill(null); bench=Array(5).fill(null); capNr=null;
-  render(); $('#out').innerHTML='';
+  merken(); render(); $('#out').innerHTML='';
 };
+$('#undo').onclick = zurueck;
+$('#th').oninput = $('#ta').oninput = merken;
 document.querySelectorAll('#fmt button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('#fmt button').forEach(x=>x.classList.remove('on'));
   b.classList.add('on'); fmt=b.dataset.f;
@@ -820,7 +885,7 @@ function formkurve(reihe){
 }
 
 let games = [], mi = -1;
-const drafts = {};   // pro Spiel eine Aufstellung, solange die Seite offen ist
+const drafts = lies();   // pro Spiel eine Aufstellung, überlebt den Reload
 
 const matchId = g => v(g,'matchID') != null ? v(g,'matchID') : when(g);
 const istHeim = g => /kaiserslautern/i.test(v(v(g,'team1'),'teamName')||'');
@@ -833,6 +898,8 @@ function setForm(val){
   if(opt){ $('#formSel').value = val; $('#form').hidden = true; }
   else { $('#formSel').value = 'custom'; $('#form').hidden = false; }
 }
+
+function merken(){ saveDraft(); schreib(drafts); }
 
 function saveDraft(){
   const g = games[mi];
@@ -880,8 +947,10 @@ function setMatch(i){
   }
 
   const e = v(g,'matchIsFinished') ? endstand(g) : null;
+  const a = tippZu(g);
   $('#status').textContent = e
-    ? 'Endstand ' + e[0] + ':' + e[1] + (drafts[matchId(g)] ? ' · Entwurf gespeichert' : '')
+    ? 'Endstand ' + e[0] + ':' + e[1] + (a ? ' · Tipp ' + a.tipp + ' ' +
+        (a.exakt ? 'exakt getroffen' : a.tendenz ? 'Tendenz richtig' : 'daneben') : '')
     : (home ? 'Heimspiel gegen ' : 'Auswärts bei ') + foeName;
 
   renderMday();
@@ -940,7 +1009,7 @@ function spielZeile(g){
     '<div class="who"><b>'+(v(foe,'shortName')||v(foe,'teamName')||'')+'</b>'+
     '<span>'+(home?'Heim':'Auswärts')+(grp?' · '+grp:'')+'</span></div>'+
     res+'</div>'+
-    (e ? '<div class="goals">'+torfolge(g)+
+    (e ? '<div class="goals">'+torfolge(g)+tippZeile(g)+
          '<div class="mk" data-elf="'+idx+'">Aufstellung für dieses Spiel →</div></div>' : '');
 }
 
@@ -957,6 +1026,15 @@ function minute(tor){
     if(m > 45 && m <= 60)  return "45'+" + (m-45);
   }
   return m > 90 && m <= 105 ? "90'+" + (m-90) : m + "'";
+}
+
+function tippZeile(g){
+  const a = tippZu(g);
+  if(!a) return '';
+  const urteil = a.exakt ? 'exakt getroffen' : (a.tendenz ? 'Tendenz richtig' : 'daneben');
+  const farbe  = a.exakt ? 'w' : (a.tendenz ? 'd' : 'l');
+  return '<div class="goal tipp"><span class="min"><i class="fd '+farbe+'"></i></span>'+
+         '<span>Dein Tipp '+a.tipp+' <span class="tag">'+urteil+'</span></span></div>';
 }
 
 function torfolge(g){
@@ -997,11 +1075,70 @@ async function renderGames(){
     setMatch(i);
     document.querySelector('#nav button[data-v="xi"]').click();
   });
+  renderSpieltag();
+  renderBilanz();
   document.querySelectorAll('#viewGames .mk').forEach(el => el.onclick = e=>{
     e.stopPropagation();
     setMatch(+el.dataset.elf);
     document.querySelector('#nav button[data-v="xi"]').click();
   });
+}
+
+/* ---- Tipps auswerten ----
+   Der Tipp steht aus FCK-Sicht, das Ergebnis aus Sicht der Heimmannschaft. */
+function tippZu(g){
+  const d = drafts[matchId(g)];
+  const e = v(g,'matchIsFinished') ? endstand(g) : null;
+  if(!d || !e || d.th === '' || d.ta === '') return null;
+  const heim = istHeim(g);
+  const eigen = heim ? e[0] : e[1], fremd = heim ? e[1] : e[0];
+  const tEigen = +d.th, tFremd = +d.ta;
+  if(!Number.isFinite(tEigen) || !Number.isFinite(tFremd)) return null;
+  const sign = x => x > 0 ? 1 : (x < 0 ? -1 : 0);
+  return {
+    tipp: tEigen + ':' + tFremd,
+    exakt: tEigen === eigen && tFremd === fremd,
+    tendenz: sign(tEigen - tFremd) === sign(eigen - fremd)
+  };
+}
+
+function renderBilanz(){
+  const box = $('#bilanz');
+  let exakt = 0, tendenz = 0, gesamt = 0;
+  games.forEach(g => {
+    const a = tippZu(g);
+    if(!a) return;
+    gesamt++; if(a.exakt) exakt++; if(a.tendenz) tendenz++;
+  });
+  box.innerHTML = gesamt
+    ? '<div class="gsec">Deine Tipps</div><div class="glist"><div class="bil">'+
+      '<span><b>'+tendenz+'</b> von '+gesamt+' Tendenzen</span>'+
+      '<span><b>'+exakt+'</b> exakt</span></div></div>'
+    : '';
+}
+
+/* ---- Alle Partien des gewählten Spieltags ---- */
+function ligaZeile(g){
+  const [a,b] = teams(g);
+  const e = v(g,'matchIsFinished') ? endstand(g) : null;
+  const d = new Date(when(g));
+  const zeit = d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+  const kurz = tm => v(tm,'shortName') || v(tm,'teamName') || '';
+  const drin = /kaiserslautern/i.test(names(g));
+  return '<div class="lg'+(drin?' me':'')+'">'+
+    '<span class="t1">'+kurz(a)+'</span>'+
+    '<span class="sc">'+(e ? e[0]+':'+e[1] : zeit)+'</span>'+
+    '<span class="t2">'+kurz(b)+'</span></div>';
+}
+
+function renderSpieltag(){
+  const box = $('#gtag');
+  const g = games[mi];
+  if(!g || !alleSpiele.length){ box.innerHTML=''; $('#tagtitel').textContent='Der Spieltag'; return; }
+  const grp = v(v(g,'group'),'groupOrderID');
+  const tag = alleSpiele.filter(x => v(v(x,'group'),'groupOrderID') === grp);
+  $('#tagtitel').textContent = v(v(g,'group'),'groupName') || 'Der Spieltag';
+  box.innerHTML = tag.map(ligaZeile).join('') || '<div class="none">Keine Daten.</div>';
 }
 
 /* ---- Tabelle ---- */
@@ -1015,11 +1152,51 @@ function ladeTabelle(){
   return tablePromise;
 }
 
+let tabModus = 'all';
+document.querySelectorAll('#tabmode button').forEach(b => b.onclick = ()=>{
+  document.querySelectorAll('#tabmode button').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); tabModus = b.dataset.t; renderTable();
+});
+
+/* Heim- und Auswärtstabelle rechnen wir aus dem Spielplan, den wir ohnehin
+   im Speicher haben. Die Api liefert dafür keinen eigenen Endpunkt. */
+function teilTabelle(nurHeim){
+  const konten = new Map();
+  const konto = tm => {
+    const id = teamId(tm);
+    if(!konten.has(id)) konten.set(id, {
+      teamId:id, teamName:v(tm,'teamName'), shortName:v(tm,'shortName'),
+      teamIconUrl:v(tm,'teamIconUrl'), matches:0, points:0, goals:0, opponentGoals:0
+    });
+    return konten.get(id);
+  };
+  alleSpiele.filter(g=>v(g,'matchIsFinished')).forEach(g=>{
+    const e = endstand(g); if(!e) return;
+    const [h,a] = teams(g);
+    const k = konto(nurHeim ? h : a);
+    konto(nurHeim ? a : h);                       // Gegner anlegen, sonst fehlt er
+    const eigen = nurHeim ? e[0] : e[1], fremd = nurHeim ? e[1] : e[0];
+    k.matches++; k.goals += eigen; k.opponentGoals += fremd;
+    k.points += eigen > fremd ? 3 : (eigen === fremd ? 1 : 0);
+  });
+  return [...konten.values()].sort((x,y)=>
+    y.points - x.points ||
+    (y.goals-y.opponentGoals) - (x.goals-x.opponentGoals) ||
+    y.goals - x.goals ||
+    (x.teamName||'').localeCompare(y.teamName||''));
+}
+
 async function renderTable(){
   const box = $('#gtab');
-  const [rows] = await Promise.all([ladeTabelle(), ladeSpiele()]);
+  const [gesamt] = await Promise.all([ladeTabelle(), ladeSpiele()]);
+  const rows = tabModus === 'all' ? gesamt : teilTabelle(tabModus === 'home');
   if(!rows.length){ box.innerHTML = '<div class="none">Tabelle nicht erreichbar.</div>'; return; }
-  const zone = i => i<2 ? 'auf' : (i===2 || i===15 ? 'rel' : (i>15 ? 'ab' : ''));
+  const zone = i => {
+    const platz = i + 1;
+    if(platz <= LIGA.aufstieg) return 'auf';
+    if(LIGA.relegation.includes(platz)) return 'rel';
+    return platz >= LIGA.abstieg ? 'ab' : '';
+  };
   box.innerHTML =
     '<div class="tr head"><span class="pos">#</span><span></span><span></span>'+
     '<span>Verein</span><span class="num">Sp</span><span class="num">Diff</span><span class="pkt">Pkt</span></div>' +
@@ -1028,10 +1205,10 @@ async function renderTable(){
       const me = /kaiserslautern/i.test(v(r,'teamName')||'');
       const diff = (v(r,'goals')||0) - (v(r,'opponentGoals')||0);
       const icon = v(r,'teamIconUrl');
-      const form = formkurve(r);
+      const form = tabModus === 'all' ? formkurve(r) : [];
       return '<div class="tr'+(me?' me':'')+'">'+
         '<span class="pos">'+(i+1)+'</span>'+
-        '<span class="zone '+zone(i)+'"></span>'+
+        '<span class="zone '+(tabModus==='all'?zone(i):'')+'"></span>'+
         (icon ? '<img src="'+icon+'" alt="" loading="lazy">' : '<span></span>')+
         '<span class="nm"><b>'+name+'</b>'+
           (form.length ? '<span class="form">'+form.map(x=>'<i class="fd '+x+'"></i>').join('')+'</span>' : '')+
