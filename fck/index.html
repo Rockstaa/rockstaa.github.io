@@ -172,7 +172,17 @@
   .tr .zone{height:22px;border-radius:2px;background:transparent}
   .tr .zone.auf{background:#3FA45B} .tr .zone.rel{background:#C9A227} .tr .zone.ab{background:var(--red)}
   .tr img{width:22px;height:22px;object-fit:contain}
-  .tr .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tr .nm{min-width:0}
+  .tr .nm b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .form{display:flex;gap:3px;margin-top:3px}
+  .fd{width:7px;height:7px;border-radius:2px;background:#3A414B;display:inline-block}
+  .fd.w{background:#3FA45B} .fd.d{background:#8A929E} .fd.l{background:var(--red)}
+  .legende{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:13px;color:#8A929E;
+    text-transform:uppercase;letter-spacing:.08em}
+  .legende span{display:flex;align-items:center;gap:5px}
+  .legende .zone{width:8px;height:12px;border-radius:2px;display:inline-block}
+  .foot{margin-top:22px;text-align:center;font-size:12px;color:#4B535E;letter-spacing:.12em;
+    text-transform:uppercase}
   .tr .num{text-align:right;color:#C6CCD4}
   .tr .pkt{text-align:right;font-weight:700}
 
@@ -195,6 +205,7 @@
 <div class="seg nav" id="nav">
   <button data-v="xi" class="on">Aufstellung</button>
   <button data-v="games">Spiele</button>
+  <button data-v="table">Tabelle</button>
 </div>
 
 <div id="viewGames" hidden>
@@ -202,9 +213,19 @@
   <div id="gpast" class="glist"><div class="none">Lade …</div></div>
   <div class="gsec">Kommende Spiele</div>
   <div id="gnext" class="glist"></div>
-  <div class="gsec">Tabelle</div>
-  <div id="gtab" class="glist"><div class="none">Lade …</div></div>
   <div class="hint">Daten von OpenLigaDB.</div>
+</div>
+
+<div id="viewTable" hidden>
+  <div class="gsec">2. Bundesliga</div>
+  <div id="gtab" class="glist"><div class="none">Lade …</div></div>
+  <div class="legende">
+    <span><i class="zone auf"></i>Aufstieg</span>
+    <span><i class="zone rel"></i>Relegation</span>
+    <span><i class="zone ab"></i>Abstieg</span>
+    <span><i class="fd w"></i>S <i class="fd d"></i>U <i class="fd l"></i>N</span>
+  </div>
+  <div class="hint">Form: die letzten fünf Spiele, ältestes links. Daten von OpenLigaDB.</div>
 </div>
 
 <div id="viewXI">
@@ -259,6 +280,8 @@
 <div class="out" id="out"></div>
 </div>
 
+<div class="foot" id="foot"></div>
+
 <div class="sheet" id="sheet"><div class="sheet-inner">
   <div class="sheet-head" id="sheetHead"></div>
   <div id="list"></div>
@@ -267,6 +290,7 @@
 <canvas id="cv"></canvas>
 
 <script>
+const VERSION = '1.0.0';   // beim Ausrollen auch VERSION in sw.js hochzählen
 const LOGO = 'data:image/png;base64,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';
 document.getElementById('crest').src = LOGO;
 const crestImg = new Image(); crestImg.src = LOGO;
@@ -760,15 +784,39 @@ function endstand(g){
   const r = rs.find(x=>v(x,'resultTypeID')===2) || rs[rs.length-1];
   return r ? [v(r,'pointsTeam1'), v(r,'pointsTeam2')] : null;
 }
-let allGames = null, gamesPromise = null;
+// Die Antwort enthält die ganze Liga. Wir behalten sie, weil sich daraus die
+// Formkurve ohne weiteren Abruf berechnen lässt.
+let alleSpiele = [], gamesPromise = null;
+const teamId = t => v(t,'teamId') != null ? v(t,'teamId') : v(t,'teamInfoId');
 
 function ladeSpiele(){
   if(gamesPromise) return gamesPromise;
   gamesPromise = fetch('https://api.openligadb.de/getmatchdata/bl2/'+season())
     .then(r => r.ok ? r.json() : Promise.reject(r.status))
-    .then(j => { allGames = Array.isArray(j) ? j.filter(istFCK).sort((a,b)=>when(a)-when(b)) : []; return allGames; })
-    .catch(() => { allGames = []; return allGames; });
+    .then(j => {
+      alleSpiele = Array.isArray(j) ? j.slice().sort((a,b)=>when(a)-when(b)) : [];
+      return alleSpiele.filter(istFCK);
+    })
+    .catch(() => { alleSpiele = []; return []; });
   return gamesPromise;
+}
+
+/* Letzte fünf Ergebnisse eines Vereins, ältestes zuerst. */
+function formkurve(reihe){
+  const id = teamId(reihe), name = (v(reihe,'teamName')||'').toLowerCase();
+  const passt = tm => (id != null && teamId(tm) === id) ||
+                      (v(tm,'teamName')||'').toLowerCase() === name;
+  return alleSpiele
+    .filter(g => v(g,'matchIsFinished') && (passt(v(g,'team1')) || passt(v(g,'team2'))))
+    .slice(-5)
+    .map(g => {
+      const e = endstand(g);
+      if(!e) return '';
+      const heim = passt(v(g,'team1'));
+      const eigen = heim ? e[0] : e[1], fremd = heim ? e[1] : e[0];
+      return eigen > fremd ? 'w' : (eigen < fremd ? 'l' : 'd');
+    })
+    .filter(Boolean);
 }
 
 let games = [], mi = -1;
@@ -954,8 +1002,6 @@ async function renderGames(){
     setMatch(+el.dataset.elf);
     document.querySelector('#nav button[data-v="xi"]').click();
   });
-
-  renderTable();
 }
 
 /* ---- Tabelle ---- */
@@ -971,7 +1017,7 @@ function ladeTabelle(){
 
 async function renderTable(){
   const box = $('#gtab');
-  const rows = await ladeTabelle();
+  const [rows] = await Promise.all([ladeTabelle(), ladeSpiele()]);
   if(!rows.length){ box.innerHTML = '<div class="none">Tabelle nicht erreichbar.</div>'; return; }
   const zone = i => i<2 ? 'auf' : (i===2 || i===15 ? 'rel' : (i>15 ? 'ab' : ''));
   box.innerHTML =
@@ -982,11 +1028,14 @@ async function renderTable(){
       const me = /kaiserslautern/i.test(v(r,'teamName')||'');
       const diff = (v(r,'goals')||0) - (v(r,'opponentGoals')||0);
       const icon = v(r,'teamIconUrl');
+      const form = formkurve(r);
       return '<div class="tr'+(me?' me':'')+'">'+
         '<span class="pos">'+(i+1)+'</span>'+
         '<span class="zone '+zone(i)+'"></span>'+
         (icon ? '<img src="'+icon+'" alt="" loading="lazy">' : '<span></span>')+
-        '<span class="nm">'+name+'</span>'+
+        '<span class="nm"><b>'+name+'</b>'+
+          (form.length ? '<span class="form">'+form.map(x=>'<i class="fd '+x+'"></i>').join('')+'</span>' : '')+
+        '</span>'+
         '<span class="num">'+(v(r,'matches')||0)+'</span>'+
         '<span class="num">'+(diff>0?'+':'')+diff+'</span>'+
         '<span class="pkt">'+(v(r,'points')||0)+'</span></div>';
@@ -996,10 +1045,12 @@ async function renderTable(){
 document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('on'));
   b.classList.add('on');
-  const spiele = b.dataset.v === 'games';
-  $('#viewXI').hidden = spiele;
-  $('#viewGames').hidden = !spiele;
-  if(spiele) renderGames();
+  const wo = b.dataset.v;
+  $('#viewXI').hidden    = wo !== 'xi';
+  $('#viewGames').hidden = wo !== 'games';
+  $('#viewTable').hidden = wo !== 'table';
+  if(wo === 'games') renderGames();
+  else if(wo === 'table') renderTable();
   else render();   // Feldmaße stimmen erst, wenn die Ansicht sichtbar ist
   scrollTo({top:0, behavior:'smooth'});
 });
@@ -1264,6 +1315,7 @@ addEventListener('resize', ()=>{
 
 buildSquad(KADER_FALLBACK, 'Eingebauter Kader', '2026/27');
 const ausLink = location.hash.length > 1;
+$('#foot').textContent = 'Wunschelf ' + VERSION + ' · inoffizielles Fanprojekt';
 fromHash();
 render();
 loadKader();
