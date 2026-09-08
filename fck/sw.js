@@ -9,7 +9,7 @@
  * Beim Ausrollen einer neuen Fassung VERSION hochzählen. Der alte Cache wird
  * dann in activate weggeräumt.
  */
-const VERSION = 'v1.1.0';
+const VERSION = 'v1.2.0';
 const APP   = 'app-'   + VERSION;   // eigene Dateien
 const DATEN = 'daten-' + VERSION;   // Kader und Spielplan
 const FONTS = 'fonts-' + VERSION;
