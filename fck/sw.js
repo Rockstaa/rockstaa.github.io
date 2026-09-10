@@ -12,7 +12,7 @@
  *
  * VERSION bei jeder Änderung an ausgelieferten Dateien hochzählen.
  */
-const VERSION = 'v1.4.1';
+const VERSION = 'v1.5.0';
 const APP   = 'app-'   + VERSION;
 const DATEN = 'daten-' + VERSION;
 

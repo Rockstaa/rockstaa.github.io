@@ -174,6 +174,7 @@
   .g .who{flex:1;min-width:0}
   .g .who b{display:block;font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .g .who span{font-size:13px;color:#8A929E;letter-spacing:.06em;text-transform:uppercase}
+  .g .pokal{font-style:normal;color:#C9A227;font-weight:700}
   .g .res{font-family:var(--display);font-size:17px;text-align:right;white-space:nowrap}
   .g .res small{display:block;font-family:var(--cond);font-size:13px;font-weight:600;color:#8A929E}
 
@@ -341,7 +342,7 @@
 <canvas id="cv"></canvas>
 
 <script>
-const VERSION = '1.4.1';   // beim Ausrollen auch VERSION in sw.js hochzählen
+const VERSION = '1.5.0';   // beim Ausrollen auch VERSION in sw.js hochzählen
 const LOGO = 'data:image/png;base64,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';
 document.getElementById('crest').src = LOGO;
 const crestImg = new Image(); crestImg.src = LOGO;
@@ -885,18 +886,62 @@ const teamId = t => v(t,'teamId') != null ? v(t,'teamId') : v(t,'teamInfoId');
 
 let netzfehler = false;
 
+let pokalSpiele = [];
+
+async function hole(pfad){
+  const r = await fetch('https://api.openligadb.de/'+pfad);
+  if(!r.ok) throw new Error(r.status);
+  const j = await r.json();
+  return Array.isArray(j) ? j : [];
+}
+
+/* Das Kürzel des DFB-Pokals ist bei OpenLigaDB nicht einheitlich vergeben -
+   anders als bl1 bis bl3. Erst der naheliegende Versuch, sonst über die
+   Ligaliste den passenden Wettbewerb der laufenden Saison suchen. */
+async function ladePokal(){
+  const jahr = String(season());
+  try{
+    const direkt = await hole('getmatchdata/dfb/'+jahr);
+    if(direkt.length) return direkt;
+  }catch(e){}
+  try{
+    const ligen = await hole('getavailableleagues');
+    const treffer = ligen.find(l =>
+      /dfb.?pokal/i.test(v(l,'leagueName') || '') &&
+      String(v(l,'leagueSeason')) === jahr);
+    if(!treffer) return [];
+    return await hole('getmatchdata/'+v(treffer,'leagueShortcut')+'/'+v(treffer,'leagueSeason'));
+  }catch(e){ return []; }
+}
+
 function ladeSpiele(){
   if(gamesPromise) return gamesPromise;
-  gamesPromise = fetch('https://api.openligadb.de/getmatchdata/bl2/'+season())
-    .then(r => r.ok ? r.json() : Promise.reject(r.status))
-    .then(j => {
-      alleSpiele = Array.isArray(j) ? j.slice().sort((a,b)=>when(a)-when(b)) : [];
+  gamesPromise = (async ()=>{
+    let liga = [];
+    try{
+      liga = await hole('getmatchdata/bl2/'+season());
       netzfehler = false;
-      return alleSpiele.filter(istFCK);
-    })
-    .catch(() => { netzfehler = true; alleSpiele = []; return []; });
+    }catch(e){
+      netzfehler = true;
+      alleSpiele = []; pokalSpiele = [];
+      return [];
+    }
+    // Der Pokal darf fehlen, ohne dass die Liga mitfällt
+    const pokal = await ladePokal();
+
+    liga.forEach(g => g.__wb = 'liga');
+    pokal.forEach(g => g.__wb = 'pokal');
+    alleSpiele  = liga.sort((a,b)=>when(a)-when(b));
+    pokalSpiele = pokal.sort((a,b)=>when(a)-when(b));
+
+    return [...alleSpiele.filter(istFCK), ...pokalSpiele.filter(istFCK)]
+      .sort((a,b)=>when(a)-when(b));
+  })();
   return gamesPromise;
 }
+
+const istPokal = g => g && g.__wb === 'pokal';
+const wettbewerbSpiele = g => istPokal(g) ? pokalSpiele : alleSpiele;
 
 /* Ein Block statt einer dürren Zeile, wenn nichts geladen werden konnte. */
 function zustand(was){
@@ -942,7 +987,7 @@ function formkurve(reihe){
   const id = teamId(reihe), name = (v(reihe,'teamName')||'').toLowerCase();
   const passt = tm => (id != null && teamId(tm) === id) ||
                       (v(tm,'teamName')||'').toLowerCase() === name;
-  return alleSpiele
+  return alleSpiele    // bewusst ohne Pokal: die Form bezieht sich auf die Liga
     .filter(g => v(g,'matchIsFinished') && (passt(v(g,'team1')) || passt(v(g,'team2'))))
     .slice(-5)
     .map(g => {
@@ -1032,7 +1077,7 @@ function renderMday(){
   const g = games[mi];
   if(!g){ $('#mday').hidden = true; return; }
   $('#mday').hidden = false;
-  const grp = v(v(g,'group'),'groupName') || 'Spieltag';
+  const grp = (istPokal(g) ? 'DFB-Pokal · ' : '') + (v(v(g,'group'),'groupName') || 'Spieltag');
   const d = new Date(when(g));
   const tag = d.toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit'});
   $('#mlabel').innerHTML = '<b>' + (istHeim(g)?'':'bei ') + gegnerName(g) + '</b>' +
@@ -1083,7 +1128,8 @@ function spielZeile(g){
     '<div class="dot '+dot+'"></div>'+
     (icon ? '<img src="'+icon+'" alt="" loading="lazy">' : '')+
     '<div class="who"><b>'+(v(foe,'shortName')||v(foe,'teamName')||'')+'</b>'+
-    '<span>'+(home?'Heim':'Auswärts')+(grp?' · '+grp:'')+'</span></div>'+
+    '<span>'+(home?'Heim':'Auswärts')+(grp?' · '+grp:'')+
+      (istPokal(g)?' · <em class="pokal">Pokal</em>':'')+'</span></div>'+
     res+'</div>'+
     (e ? '<div class="goals">'+torfolge(g)+tippZeile(g)+
          '<div class="mk" data-elf="'+idx+'">Aufstellung für dieses Spiel →</div></div>' : '');
@@ -1219,10 +1265,12 @@ function ligaZeile(g){
 function renderSpieltag(){
   const box = $('#gtag');
   const g = games[mi];
-  if(!g || !alleSpiele.length){ box.innerHTML=''; $('#tagtitel').textContent='Der Spieltag'; return; }
+  if(!g || !wettbewerbSpiele(g).length){ box.innerHTML=''; $('#tagtitel').textContent='Der Spieltag'; return; }
+  const quelle = wettbewerbSpiele(g);
   const grp = v(v(g,'group'),'groupOrderID');
-  const tag = alleSpiele.filter(x => v(v(x,'group'),'groupOrderID') === grp);
-  $('#tagtitel').textContent = v(v(g,'group'),'groupName') || 'Der Spieltag';
+  const tag = quelle.filter(x => v(v(x,'group'),'groupOrderID') === grp);
+  const runde = v(v(g,'group'),'groupName') || 'Der Spieltag';
+  $('#tagtitel').textContent = istPokal(g) ? 'DFB-Pokal · ' + runde : runde;
 
   // Ein Spieltag verteilt sich über Freitag bis Sonntag - nach Tagen gruppieren,
   // sonst steht in jeder Zeile nur eine Uhrzeit ohne Bezug.
