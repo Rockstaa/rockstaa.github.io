@@ -1,4 +1,4 @@
-/* FCK Wunschelf — Service Worker
+/* Betze Kompakt — Service Worker
  *
  * Wichtigste Regel hier: die Seite selbst kommt NETZWERKORIENTIERT.
  * Eine cache-first ausgelieferte index.html führt sonst dazu, dass
@@ -12,7 +12,7 @@
  *
  * VERSION bei jeder Änderung an ausgelieferten Dateien hochzählen.
  */
-const VERSION = 'v1.5.2';
+const VERSION = 'v1.6.0';
 const APP   = 'app-'   + VERSION;
 const DATEN = 'daten-' + VERSION;
 

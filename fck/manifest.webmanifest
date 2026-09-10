@@ -1,7 +1,7 @@
 {
-  "name": "FCK Wunschelf",
-  "short_name": "Wunschelf",
-  "description": "Aufstellungsgenerator für den 1. FC Kaiserslautern",
+  "name": "Betze Kompakt",
+  "short_name": "Betze",
+  "description": "Aufstellung, Spiele und Tabelle des 1. FC Kaiserslautern",
   "lang": "de",
   "start_url": ".",
   "scope": ".",
@@ -10,8 +10,23 @@
   "background_color": "#0E1013",
   "theme_color": "#0E1013",
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ]
 }
