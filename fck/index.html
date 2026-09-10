@@ -204,6 +204,7 @@
   .tr .nm{min-width:0}
   .tr .nm b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .form{display:flex;gap:3px;margin-top:3px}
+  .form.inline{display:inline-flex;margin:0 0 0 6px;vertical-align:middle}
   .fd{width:7px;height:7px;border-radius:2px;background:#3A414B;display:inline-block}
   .fd.w{background:#3FA45B} .fd.d{background:#8A929E} .fd.l{background:var(--red)}
   .lgtag{padding:9px 12px 5px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
@@ -344,7 +345,7 @@
 <canvas id="cv"></canvas>
 
 <script>
-const VERSION = '1.5.1';   // beim Ausrollen auch VERSION in sw.js hochzählen
+const VERSION = '1.5.2';   // beim Ausrollen auch VERSION in sw.js hochzählen
 const LOGO = 'data:image/png;base64,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';
 document.getElementById('crest').src = LOGO;
 const crestImg = new Image(); crestImg.src = LOGO;
@@ -1153,8 +1154,11 @@ function spielZeile(g){
     '<span>'+(home?'Heim':'Auswärts')+(grp?' · '+grp:'')+
       (istPokal(g)?' · <em class="pokal">Pokal</em>':'')+'</span></div>'+
     res+'</div>'+
-    (e ? '<div class="goals">'+torfolge(g)+tippZeile(g)+
-         '<div class="mk" data-elf="'+idx+'">Aufstellung für dieses Spiel →</div></div>' : '');
+    '<div class="goals">'+
+      (e ? torfolge(g)+tippZeile(g) : vorschau(g))+
+      '<div class="mk" data-elf="'+idx+'">'+
+        (e ? 'Aufstellung für dieses Spiel →' : 'Aufstellung bauen →')+
+      '</div></div>';
 }
 
 /* Minutenangabe: reguläre Minuten mit Apostroph, Nachspielzeit als 90'+5. Die Api setzt isOvertime für Treffer in der
@@ -1170,6 +1174,48 @@ function minute(tor){
     if(m > 45 && m <= 60)  return "45'+" + (m-45);
   }
   return m > 90 && m <= 105 ? "90'+" + (m-90) : m + "'";
+}
+
+/* Kommende Partien klappen ebenfalls auf, statt sofort wegzuspringen.
+   Gezeigt wird, was vor einem Spiel interessiert: Anstoß, Ort, wo der
+   Gegner steht und wie das bisherige Duell ausging. */
+function vorschau(g){
+  const foe = gegner(g);
+  const d = new Date(when(g));
+  const zeile = (was, wert) => '<div class="goal"><span class="min">'+was+'</span><span>'+wert+'</span></div>';
+
+  let out = zeile('Anstoß',
+    d.toLocaleDateString('de-DE',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'}) +
+    ' · ' + d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}) + ' Uhr');
+
+  const ort = v(g,'location');
+  const stadion = v(ort,'locationStadium'), stadt = v(ort,'locationCity');
+  if(stadion || stadt) out += zeile('Ort', [stadion, stadt].filter(Boolean).join(', '));
+
+  // Gegner in der Tabelle, samt Form - nur bei Ligagegnern aussagekräftig
+  const name = (v(foe,'teamName')||'').toLowerCase();
+  const i = tabRows.findIndex(r => (v(r,'teamName')||'').toLowerCase() === name);
+  if(i > -1){
+    const r = tabRows[i];
+    const form = formkurve(r).map(x=>'<i class="fd '+x+'"></i>').join('');
+    out += zeile('Gegner', 'Platz ' + (i+1) + ' · ' + (v(r,'points')||0) + ' Punkte' +
+      (form ? ' <span class="form inline">'+form+'</span>' : ''));
+  }
+
+  // Früheres Duell derselben Saison
+  const frueher = wettbewerbSpiele(g).filter(x =>
+    x !== g && v(x,'matchIsFinished') &&
+    /kaiserslautern/i.test(names(x)) &&
+    new RegExp((v(foe,'teamName')||'').replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i').test(names(x)));
+  if(frueher.length){
+    const x = frueher[frueher.length-1], e = endstand(x);
+    if(e) out += zeile('Zuvor', (istHeim(x)?'Heim':'Auswärts') + ' ' + e[0]+':'+e[1] +
+      (ergebnisZusatz(x) ? ' ' + ergebnisZusatz(x) : ''));
+  }
+
+  const entwurf = drafts[matchId(g)];
+  if(entwurf) out += zeile('Entwurf', 'Aufstellung vorhanden');
+  return out;
 }
 
 function tippZeile(g){
@@ -1199,6 +1245,7 @@ function torfolge(g){
 async function renderGames(){
   const past = $('#gpast'), next = $('#gnext');
   games = await ladeSpiele();
+  await ladeTabelle();   // für Platz und Form des Gegners in der Vorschau
   if(!games.length){
     past.innerHTML = zustand('Spielplan');
     next.innerHTML = '';
@@ -1214,13 +1261,9 @@ async function renderGames(){
   next.innerHTML = offen.slice(0,6).map(spielZeile).join('') ||
                    '<div class="none">Keine weiteren Spiele.</div>';
 
-  // Gespielte Partien klappen die Torfolge auf, kommende öffnen die Aufstellung
+  // Jede Zeile klappt auf; zur Aufstellung geht es über den Knopf darin
   document.querySelectorAll('#viewGames .g').forEach(el => el.onclick = ()=>{
-    const i = +el.dataset.i;
-    if(el.dataset.fertig === '1'){ el.classList.toggle('open'); return; }
-    if(i < 0) return;
-    setMatch(i);
-    document.querySelector('#nav button[data-v="xi"]').click();
+    el.classList.toggle('open');
   });
   renderSpieltag();
   renderBilanz();
@@ -1308,12 +1351,13 @@ function renderSpieltag(){
 }
 
 /* ---- Tabelle ---- */
+let tabRows = [];
 let tablePromise = null;
 function ladeTabelle(){
   if(tablePromise) return tablePromise;
   tablePromise = fetch('https://api.openligadb.de/getbltable/bl2/'+season())
     .then(r => r.ok ? r.json() : Promise.reject(r.status))
-    .then(j => Array.isArray(j) ? j : [])
+    .then(j => { tabRows = Array.isArray(j) ? j : []; return tabRows; })
     .catch(() => []);
   return tablePromise;
 }
