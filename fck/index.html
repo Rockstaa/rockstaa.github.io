@@ -177,6 +177,8 @@
   .g .pokal{font-style:normal;color:#C9A227;font-weight:700}
   .g .res{font-family:var(--display);font-size:17px;text-align:right;white-space:nowrap}
   .g .res small{display:block;font-family:var(--cond);font-size:13px;font-weight:600;color:#8A929E}
+  .g .res .zus{font-family:var(--cond);font-size:13px;font-weight:600;color:#C9A227}
+  .lg .sc em{display:block;font-style:normal;font-family:var(--cond);font-size:12px;color:#C9A227}
 
   .goals{display:none;padding:2px 12px 12px 40px;border-bottom:1px solid #22262D;background:#14171C}
   .g.open + .goals{display:block}
@@ -342,7 +344,7 @@
 <canvas id="cv"></canvas>
 
 <script>
-const VERSION = '1.5.0';   // beim Ausrollen auch VERSION in sw.js hochzählen
+const VERSION = '1.5.1';   // beim Ausrollen auch VERSION in sw.js hochzählen
 const LOGO = 'data:image/png;base64,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';
 document.getElementById('crest').src = LOGO;
 const crestImg = new Image(); crestImg.src = LOGO;
@@ -874,10 +876,27 @@ const teams = g => [v(g,'team1'), v(g,'team2')];
 const names = g => teams(g).map(x=>v(x,'teamName')||'').join(' ');
 const when  = g => new Date(v(g,'matchDateTime')).getTime();
 const istFCK = g => /kaiserslautern/i.test(names(g));
+/* Ein Spiel kann mehrere Ergebnisse haben: Halbzeit, nach 90 Minuten, nach
+   Verlängerung, nach Elfmeterschießen. resultTypeID 2 meint das Ergebnis nach
+   regulärer Spielzeit - im Pokal ist das nicht der Endstand. Maßgeblich ist
+   der Eintrag mit der höchsten resultOrderID. */
+function letztesErgebnis(g){
+  const rs = (v(g,'matchResults') || []).slice();
+  if(!rs.length) return null;
+  rs.sort((a,b)=> (v(a,'resultOrderID')||0) - (v(b,'resultOrderID')||0));
+  return rs[rs.length-1];
+}
 function endstand(g){
-  const rs = v(g,'matchResults') || [];
-  const r = rs.find(x=>v(x,'resultTypeID')===2) || rs[rs.length-1];
+  const r = letztesErgebnis(g);
   return r ? [v(r,'pointsTeam1'), v(r,'pointsTeam2')] : null;
+}
+/* n.V. oder i.E. hinter dem Ergebnis, wenn es nicht nach 90 Minuten fiel. */
+function ergebnisZusatz(g){
+  const r = letztesErgebnis(g);
+  const name = (v(r,'resultName') || '') + ' ' + (v(r,'resultDescription') || '');
+  if(/elfmeter/i.test(name)) return 'i.E.';
+  if(/verlänger/i.test(name)) return 'n.V.';
+  return '';
 }
 // Die Antwort enthält die ganze Liga. Wir behalten sie, weil sich daraus die
 // Formkurve ohne weiteren Abruf berechnen lässt.
@@ -1065,7 +1084,8 @@ function setMatch(i){
   const e = v(g,'matchIsFinished') ? endstand(g) : null;
   const a = tippZu(g);
   $('#status').textContent = e
-    ? 'Endstand ' + e[0] + ':' + e[1] + (a ? ' · Tipp ' + a.tipp + ' ' +
+    ? 'Endstand ' + e[0] + ':' + e[1] + (ergebnisZusatz(g) ? ' ' + ergebnisZusatz(g) : '') +
+      (a ? ' · Tipp ' + a.tipp + ' ' +
         (a.exakt ? 'exakt getroffen' : a.tendenz ? 'Tendenz richtig' : 'daneben') : '')
     : (home ? 'Heimspiel gegen ' : 'Auswärts bei ') + foeName;
 
@@ -1118,7 +1138,9 @@ function spielZeile(g){
   if(e){
     const eigen = home ? e[0] : e[1], fremd = home ? e[1] : e[0];
     dot = eigen > fremd ? 'w' : (eigen < fremd ? 'l' : 'd');
-    res = '<div class="res">'+e[0]+':'+e[1]+'<small>'+datum+'</small></div>';
+    const zus = ergebnisZusatz(g);
+    res = '<div class="res">'+e[0]+':'+e[1]+(zus?' <span class="zus">'+zus+'</span>':'')+
+          '<small>'+datum+'</small></div>';
   } else {
     res = '<div class="res">'+zeit+'<small>'+datum+'</small></div>';
   }
@@ -1257,7 +1279,7 @@ function ligaZeile(g){
   return '<div class="lg'+(drin?' me':'')+'">'+
     '<span class="t1">'+kurz(a)+'</span>'+
     wappen(a)+
-    '<span class="sc">'+(e ? e[0]+':'+e[1] : zeit)+'</span>'+
+    '<span class="sc">'+(e ? e[0]+':'+e[1]+(ergebnisZusatz(g)?'<em>'+ergebnisZusatz(g)+'</em>':'') : zeit)+'</span>'+
     wappen(b)+
     '<span class="t2">'+kurz(b)+'</span></div>';
 }
