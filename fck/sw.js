@@ -12,7 +12,7 @@
  *
  * VERSION bei jeder Änderung an ausgelieferten Dateien hochzählen.
  */
-const VERSION = 'v1.6.0';
+const VERSION = 'v1.7.0';
 const APP   = 'app-'   + VERSION;
 const DATEN = 'daten-' + VERSION;
 
@@ -23,6 +23,7 @@ const APP_DATEIEN = [
   './icon-192.png',
   './icon-512.png',
   './datenschutz.html',
+  './hilfe.html',
   './archivo-black.woff2',
   './barlow-condensed-400.woff2',
   './barlow-condensed-600.woff2',
