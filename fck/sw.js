@@ -6,24 +6,27 @@
  * auch dann, wenn längst eine neue hochgeladen ist.
  *
  *   Seite             network first   frisch, offline aus dem Cache
- *   Icons, Manifest   stale while revalidate
+ *   Icons, Schriften  stale while revalidate
  *   kader.json        network first
  *   Spielplan         network first, offline der letzte Stand
- *   Schriften         stale while revalidate
  *
  * VERSION bei jeder Änderung an ausgelieferten Dateien hochzählen.
  */
-const VERSION = 'v1.3.1';
+const VERSION = 'v1.4.0';
 const APP   = 'app-'   + VERSION;
 const DATEN = 'daten-' + VERSION;
-const FONTS = 'fonts-' + VERSION;
 
 const APP_DATEIEN = [
   './',
   './index.html',
   './manifest.webmanifest',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './datenschutz.html',
+  './archivo-black.woff2',
+  './barlow-condensed-400.woff2',
+  './barlow-condensed-600.woff2',
+  './barlow-condensed-700.woff2'
 ];
 
 self.addEventListener('install', e => {
@@ -37,7 +40,7 @@ self.addEventListener('install', e => {
 });
 
 self.addEventListener('activate', e => {
-  const behalten = [APP, DATEN, FONTS];
+  const behalten = [APP, DATEN];
   e.waitUntil(
     caches.keys()
       .then(ks => Promise.all(ks.filter(k => !behalten.includes(k)).map(k => caches.delete(k))))
@@ -79,11 +82,6 @@ self.addEventListener('fetch', e => {
 
   if(url.hostname === 'api.openligadb.de'){
     e.respondWith(networkFirst(req, DATEN));
-    return;
-  }
-
-  if(url.hostname.endsWith('googleapis.com') || url.hostname.endsWith('gstatic.com')){
-    e.respondWith(staleWhileRevalidate(req, FONTS));
     return;
   }
 
