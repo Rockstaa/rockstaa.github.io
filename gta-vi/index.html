@@ -805,34 +805,153 @@
   document.addEventListener("fullscreenchange", () =>
     fullBtn.setAttribute("aria-pressed", String(!!document.fullscreenElement)));
 
-  /* ---------- Musik: music.mp3 im Loop, mit sanftem Ein-/Ausblenden ---------- */
+  /* ---------- Musik: Synthwave-Loop, live im Browser erzeugt ---------- */
 
   const music = (() => {
-    const audio = new Audio("music.mp3");
-    audio.loop = true;
-    audio.preload = "none";
-    const VOLUME = .7;
-    let playing = false, fade;
+    const BPM = 96, STEP = 60 / BPM / 4; // Sechzehntel
+    // Am – F – C – G, der Synthwave-Klassiker
+    const BARS = [
+      { root: 45, notes: [57, 60, 64] },
+      { root: 41, notes: [57, 60, 65] },
+      { root: 48, notes: [55, 60, 64] },
+      { root: 43, notes: [55, 59, 62] },
+    ];
+    const ARP = [0, 1, 2, 3, 2, 1, 2, 3, 0, 1, 2, 3, 2, 3, 1, 2];
+    let ac, master, reverb, delay, noise, timer, nextTime = 0, step = 0, playing = false;
+    const mtof = m => 440 * 2 ** ((m - 69) / 12);
 
-    function fadeTo(target, ms, done) {
-      clearInterval(fade);
-      const from = audio.volume, start = performance.now();
-      fade = setInterval(() => {
-        const k = Math.min(1, (performance.now() - start) / ms);
-        audio.volume = from + (target - from) * k;
-        if (k === 1) { clearInterval(fade); done?.(); }
-      }, 30);
+    function init() {
+      ac = new AudioContext();
+      const comp = ac.createDynamicsCompressor();
+      master = ac.createGain();
+      master.gain.value = 0;
+      master.connect(comp).connect(ac.destination);
+
+      const len = ac.sampleRate * 2.8;
+      const ir = ac.createBuffer(2, len, ac.sampleRate);
+      for (let ch = 0; ch < 2; ch++) {
+        const d = ir.getChannelData(ch);
+        for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len) ** 3;
+      }
+      reverb = ac.createConvolver();
+      reverb.buffer = ir;
+      const rg = ac.createGain(); rg.gain.value = .4;
+      reverb.connect(rg).connect(master);
+
+      delay = ac.createDelay();
+      delay.delayTime.value = STEP * 3;
+      const fb = ac.createGain(); fb.gain.value = .38;
+      const dg = ac.createGain(); dg.gain.value = .35;
+      delay.connect(fb).connect(delay);
+      delay.connect(dg).connect(master);
+
+      noise = ac.createBuffer(1, ac.sampleRate, ac.sampleRate);
+      const nd = noise.getChannelData(0);
+      for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+    }
+
+    function env(t, peak, attack, decay) {
+      const g = ac.createGain();
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(peak, t + attack);
+      g.gain.exponentialRampToValueAtTime(.0001, t + attack + decay);
+      return g;
+    }
+    function osc(type, freq, t, stop, detune = 0) {
+      const o = ac.createOscillator();
+      o.type = type; o.frequency.value = freq; o.detune.value = detune;
+      o.start(t); o.stop(stop);
+      return o;
+    }
+    function lowpass(freq, q = .7) {
+      const f = ac.createBiquadFilter();
+      f.type = "lowpass"; f.frequency.value = freq; f.Q.value = q;
+      return f;
+    }
+    function noiseSrc(t, dur) {
+      const s = ac.createBufferSource();
+      s.buffer = noise; s.start(t); s.stop(t + dur);
+      return s;
+    }
+
+    function bass(m, t) {
+      const f = lowpass(500, 6);
+      f.frequency.setValueAtTime(900, t);
+      f.frequency.exponentialRampToValueAtTime(220, t + STEP * 1.6);
+      const g = env(t, .32, .005, STEP * 1.8);
+      osc("sawtooth", mtof(m), t, t + STEP * 2).connect(f).connect(g).connect(master);
+    }
+    function pad(notes, t, dur) {
+      const f = lowpass(1400);
+      const g = ac.createGain();
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(.05, t + .5);
+      g.gain.setValueAtTime(.05, t + dur - .3);
+      g.gain.linearRampToValueAtTime(0, t + dur);
+      f.connect(g);
+      g.connect(master); g.connect(reverb);
+      notes.forEach(n => [-9, 9].forEach(det => osc("sawtooth", mtof(n), t, t + dur, det).connect(f)));
+    }
+    function arp(m, t) {
+      const g = env(t, .05, .003, .2);
+      osc("square", mtof(m), t, t + .25).connect(lowpass(2600)).connect(g);
+      g.connect(master); g.connect(delay);
+    }
+    function kick(t) {
+      const o = osc("sine", 150, t, t + .4);
+      o.frequency.setValueAtTime(150, t);
+      o.frequency.exponentialRampToValueAtTime(42, t + .12);
+      o.connect(env(t, .9, .002, .35)).connect(master);
+    }
+    function snare(t) {
+      const bp = ac.createBiquadFilter();
+      bp.type = "bandpass"; bp.frequency.value = 1800; bp.Q.value = .8;
+      const g = env(t, .4, .002, .22);
+      noiseSrc(t, .3).connect(bp).connect(g);
+      g.connect(master); g.connect(reverb);
+      osc("triangle", 190, t, t + .12).connect(env(t, .25, .002, .1)).connect(master);
+    }
+    function hat(t, loud) {
+      const hp = ac.createBiquadFilter();
+      hp.type = "highpass"; hp.frequency.value = 7500;
+      noiseSrc(t, .06).connect(hp).connect(env(t, loud ? .1 : .05, .001, .05)).connect(master);
+    }
+
+    function schedule(i, t) {
+      const bar = BARS[Math.floor(i / 16)], s = i % 16;
+      if (s === 0) pad(bar.notes, t, STEP * 16);
+      if (s % 2 === 0) bass(bar.root + (s % 4 === 2 ? 12 : 0), t);
+      const tones = [...bar.notes, bar.notes[0] + 12];
+      arp(tones[ARP[s]] + 12, t);
+      if (s % 8 === 0) kick(t);
+      if (s === 4 || s === 12) snare(t);
+      if (s % 2 === 0) hat(t, s % 4 === 2);
+    }
+    function scheduler() {
+      while (nextTime < ac.currentTime + .15) {
+        schedule(step, nextTime);
+        nextTime += STEP;
+        step = (step + 1) % (16 * BARS.length);
+      }
     }
 
     return {
       async toggle() {
+        if (!ac) init();
         playing = !playing;
+        const t = ac.currentTime;
+        master.gain.cancelScheduledValues(t);
+        master.gain.setValueAtTime(master.gain.value, t);
         if (playing) {
-          audio.volume = 0;
-          try { await audio.play(); } catch { playing = false; return false; }
-          fadeTo(VOLUME, 1200);
+          await ac.resume();
+          nextTime = ac.currentTime + .05;
+          step = 0;
+          clearInterval(timer);
+          timer = setInterval(scheduler, 25);
+          master.gain.linearRampToValueAtTime(.55, ac.currentTime + 1.5);
         } else {
-          fadeTo(0, 600, () => { if (!playing) audio.pause(); });
+          master.gain.linearRampToValueAtTime(0, t + .6);
+          setTimeout(() => { if (!playing) { clearInterval(timer); ac.suspend(); } }, 700);
         }
         return playing;
       },
