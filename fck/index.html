@@ -1609,19 +1609,35 @@ async function draw(){
   ctx.fillStyle='#14171C'; ctx.fillRect(0,0,W,HH);
   ctx.fillStyle=RED; ctx.fillRect(0,HH-5,W,5);
   ctx.textBaseline='middle';
-  drawLogo(ctx, crestImg, 92, 82, 104);
   ctx.textAlign='left';
-  ctx.fillStyle='#7C8590'; ctx.font='600 27px '+C;
-  ctx.fillText('VS.',160,84);
+  // Wie im Fernsehen steht die Heimmannschaft links
+  const heim = !games[mi] || istHeim(games[mi]);
+  const zeichneVs = x => { ctx.fillStyle='#7C8590'; ctx.font='600 27px '+C; ctx.fillText('VS.',x,84); };
   // Steht das Gegnerwappen, spricht es für sich - der Name bleibt dann weg
-  if(!drawLogo(ctx, oppImg, 250, 82, 104)){
+  const gegnerText = (x, maxW) => {
     const opp=($('#opp').value||'').toUpperCase();
-    const os=fit(ctx,opp,300,34,D,16);
+    const os=fit(ctx,opp,maxW,34,D,16);
     ctx.fillStyle='#fff'; ctx.font=os+'px '+D;
-    ctx.fillText(opp,214,84);
+    ctx.fillText(opp,x,84);
+    return ctx.measureText(opp).width;
+  };
+  if(heim){
+    drawLogo(ctx, crestImg, 92, 82, 104);
+    zeichneVs(160);
+    if(!drawLogo(ctx, oppImg, 250, 82, 104)) gegnerText(214, 300);
+  } else if(drawLogo(ctx, oppImg, 92, 82, 104)){
+    zeichneVs(160);
+    drawLogo(ctx, crestImg, 250, 82, 104);
+  } else {
+    const x = 40 + gegnerText(40, 300) + 22;
+    zeichneVs(x);
+    drawLogo(ctx, crestImg, x + ctx.measureText('VS.').width + 74, 82, 104);
   }
 
-  [['Formation',f],['Tipp',(($('#th').value||'0')+':'+($('#ta').value||'0'))]].forEach(([lab,val],i)=>{
+  // Eingegeben wird der Tipp aus FCK-Sicht, im Bild folgt er den Wappen
+  const tTh = $('#th').value||'0', tTa = $('#ta').value||'0';
+  const tipp = heim ? tTh+':'+tTa : tTa+':'+tTh;
+  [['Formation',f],['Tipp',tipp]].forEach(([lab,val],i)=>{
     const bw=152,bh=98,bx=W-40-(2-i)*(bw+14),by=31;
     ctx.fillStyle='#fff'; roundRect(ctx,bx,by,bw,bh,7); ctx.fill();
     ctx.textAlign='center';
