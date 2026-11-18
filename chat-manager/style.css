@@ -186,6 +186,7 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
 .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 650; padding: 1px 7px; border-radius: 999px; background: var(--surface-3); color: var(--muted); }
 .badge.subtle { background: transparent; border: 1px solid var(--line); }
 .badge.protected { background: rgba(245, 196, 81, .12); color: var(--star); }
+.badge.project { background: rgba(43, 184, 201, .14); color: var(--accent-2); }
 .star, .open {
   display: grid; place-items: center; width: 36px; height: 36px; border-radius: 9px; border: 0; background: transparent;
   color: var(--faint); cursor: pointer; flex: none; transition: color .15s var(--ease), background .15s var(--ease), transform .15s var(--ease);
@@ -249,6 +250,8 @@ label.inline { display: inline-flex; align-items: center; gap: 9px; cursor: poin
 #typeConfirmWrap { margin-top: 14px; }
 #typeConfirmWrap label { font-size: 13.5px; }
 #confirmText { width: 100%; margin-top: 6px; font-family: ui-monospace, monospace; letter-spacing: .5px; }
+#moveWrap { margin: 4px 0 12px; }
+#moveWrap .field, #moveTarget { width: 100%; }
 .dialog-buttons { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
 .dialog-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .dialog-head h2 { margin: 0; }

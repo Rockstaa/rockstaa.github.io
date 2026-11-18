@@ -37,15 +37,16 @@
       <table>
         <thead><tr><th scope="col">Daten</th><th scope="col">Zweck</th><th scope="col">Wo</th><th scope="col">Wie lange</th></tr></thead>
         <tbody>
-          <tr><td><strong>Chat-Metadaten</strong>: ID, Titel, Zeitpunkt der letzten Änderung, Archiv-Status</td><td>Liste anzeigen, suchen, filtern, sortieren, Massenaktionen</td><td>Arbeitsspeicher der Manager-Seite</td><td>bis der Manager-Tab geschlossen oder neu geladen wird</td></tr>
+          <tr><td><strong>Chat-Metadaten</strong>: ID, Titel, Zeitpunkt der letzten Änderung, Archiv-Status, Projekt-ID, falls der Chat in einem ChatGPT-Projekt liegt</td><td>Liste anzeigen, suchen, filtern, sortieren, Massenaktionen</td><td>Arbeitsspeicher der Manager-Seite</td><td>bis der Manager-Tab geschlossen oder neu geladen wird</td></tr>
+          <tr><td><strong>Projektliste</strong>: ID und Name deiner ChatGPT-Projekte</td><td>Projektnamen anzeigen, nach Projekt filtern, Ziel beim Verschieben wählen</td><td>Arbeitsspeicher der Manager-Seite</td><td>bis der Manager-Tab geschlossen oder neu geladen wird</td></tr>
           <tr><td><strong>Zugriffstoken der ChatGPT-Sitzung</strong></td><td>Anfragen an <code>chatgpt.com</code> im Namen deiner bestehenden Anmeldung</td><td>nur im Arbeitsspeicher des ChatGPT-Tabs</td><td>bis der ChatGPT-Tab geschlossen oder neu geladen wird</td></tr>
           <tr><td><strong>Lokale Favoriten</strong>: Chat-IDs und Zeitpunkt der Markierung</td><td>Favoritenansicht und Löschschutz</td><td><code>chrome.storage.local</code> in diesem Browser</td><td>bis du sie entfernst (einzeln oder über Einstellungen → „Alle lokalen Favoriten entfernen“) oder die Erweiterung deinstallierst</td></tr>
           <tr><td><strong>Einstellungen</strong>: Sprache, Löschschutz, Pause zwischen Anfragen, Sortierung</td><td>Bedienung</td><td><code>chrome.storage.local</code></td><td>bis zur Deinstallation der Erweiterung</td></tr>
-          <tr><td><strong>Exportdateien</strong> (JSON/CSV: ID, Titel, Änderungszeitpunkt, Archiv-Status, Favorit, Link)</td><td>Sicherung durch dich</td><td>wird lokal erzeugt und nur auf deinen Klick heruntergeladen</td><td>liegt danach in deiner Verantwortung</td></tr>
+          <tr><td><strong>Exportdateien</strong> (JSON/CSV: ID, Titel, Änderungszeitpunkt, Archiv-Status, Favorit, Projekt (ja/nein), Link)</td><td>Sicherung durch dich</td><td>wird lokal erzeugt und nur auf deinen Klick heruntergeladen</td><td>liegt danach in deiner Verantwortung</td></tr>
         </tbody>
       </table>
     </div>
-    <p>Das Zugriffstoken wird <strong>nie</strong> protokolliert, gespeichert, an die Manager-Seite weitergegeben oder an andere Hosts als <code>chatgpt.com</code> gesendet. <strong>Chat-Inhalte</strong> (Nachrichten) werden nicht abgerufen.</p>
+    <p>Das Zugriffstoken wird <strong>nie</strong> protokolliert, gespeichert, an die Manager-Seite weitergegeben oder an andere Hosts als <code>chatgpt.com</code> gesendet. <strong>Chat-Inhalte</strong> (Nachrichten) werden nicht abgerufen. ChatGPT liefert mit der Projektliste weitere Angaben (zum Beispiel Projektanweisungen); davon übernimmt die Erweiterung nur ID und Namen.</p>
     <p><code>chrome.storage.local</code> wird <strong>nicht</strong> über dein Google-Konto synchronisiert.</p>
 
     <h2>4. Übermittlung an Dritte</h2>
@@ -91,15 +92,16 @@
       <table>
         <thead><tr><th scope="col">Data</th><th scope="col">Purpose</th><th scope="col">Where</th><th scope="col">Retention</th></tr></thead>
         <tbody>
-          <tr><td><strong>Chat metadata</strong>: ID, title, last-updated time, archive state</td><td>show, search, filter, sort, bulk actions</td><td>memory of the manager page</td><td>until the manager tab is closed or reloaded</td></tr>
+          <tr><td><strong>Chat metadata</strong>: ID, title, last-updated time, archive state, project ID if the chat is in a ChatGPT project</td><td>show, search, filter, sort, bulk actions</td><td>memory of the manager page</td><td>until the manager tab is closed or reloaded</td></tr>
+          <tr><td><strong>Project list</strong>: ID and name of your ChatGPT projects</td><td>show project names, filter by project, choose the destination when moving</td><td>memory of the manager page</td><td>until the manager tab is closed or reloaded</td></tr>
           <tr><td><strong>ChatGPT session access token</strong></td><td>requests to <code>chatgpt.com</code> using your existing sign-in</td><td>memory of the ChatGPT tab only</td><td>until that tab is closed or reloaded</td></tr>
           <tr><td><strong>Local favorites</strong>: chat IDs and time marked</td><td>favorites view, delete protection</td><td><code>chrome.storage.local</code> in this browser</td><td>until you remove them (individually or via Settings → "Remove all local favorites") or uninstall</td></tr>
           <tr><td><strong>Settings</strong>: language, delete protection, request delay, sort</td><td>operation</td><td><code>chrome.storage.local</code></td><td>until the extension is uninstalled</td></tr>
-          <tr><td><strong>Export files</strong> (JSON/CSV: ID, title, updated time, archive state, favorite, link)</td><td>your own backup</td><td>generated locally, downloaded only on your click</td><td>your responsibility afterwards</td></tr>
+          <tr><td><strong>Export files</strong> (JSON/CSV: ID, title, updated time, archive state, favorite, project (yes/no), link)</td><td>your own backup</td><td>generated locally, downloaded only on your click</td><td>your responsibility afterwards</td></tr>
         </tbody>
       </table>
     </div>
-    <p>The access token is <strong>never</strong> logged, stored, passed to the manager page, or sent to any host other than <code>chatgpt.com</code>. <strong>Chat contents</strong> (messages) are not fetched. <code>chrome.storage.local</code> is not synced to your Google account.</p>
+    <p>The access token is <strong>never</strong> logged, stored, passed to the manager page, or sent to any host other than <code>chatgpt.com</code>. <strong>Chat contents</strong> (messages) are not fetched. Along with the project list ChatGPT returns further details (for example project instructions); the extension keeps only ID and name. <code>chrome.storage.local</code> is not synced to your Google account.</p>
 
     <h2>4. Third parties</h2>
     <ul>
