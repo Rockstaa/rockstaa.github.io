@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Datenschutzerklärung / Privacy Policy – Chat Manager for ChatGPT</title>
+  <link rel="icon" href="icons/icon48.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="app doc">
+  <!-- Content mirrors docs/PRIVACY_POLICY.md. Keep both in sync; scripts/check.mjs compares the dates. -->
+  <nav class="doc-lang" aria-label="Sprache / Language">
+    <a href="./" class="doc-home">Chat Manager for ChatGPT</a>
+    <a href="#de" lang="de" data-lang="de">Deutsch</a>
+    <a href="#en" lang="en" data-lang="en">English</a>
+  </nav>
+
+  <article id="de" lang="de" class="doc-section">
+    <h1>Datenschutzerklärung</h1>
+    <p class="doc-meta">Chat Manager for ChatGPT · Stand: <time datetime="2026-11-18">18.11.2026</time> · gilt für Version 2.x</p>
+
+    <h2>1. Verantwortlicher und Kontakt</h2>
+    <p>Verantwortlich: <strong>Dennis Werner</strong> (Publisher „DenDev“)<br>
+      E-Mail: <a href="mailto:dendev.labs@gmail.com">dendev.labs@gmail.com</a></p>
+    <p>„Chat Manager for ChatGPT“ ist ein unabhängiges Projekt. Es ist <strong>kein Produkt von OpenAI</strong> und weder mit OpenAI verbunden noch von OpenAI unterstützt.</p>
+
+    <h2>2. Kurzfassung</h2>
+    <ul>
+      <li>Die Erweiterung hat <strong>keinen eigenen Server</strong>. Der Herausgeber erhält keine Daten von dir.</li>
+      <li><strong>Kein Tracking, keine Analyse- oder Statistikdienste, keine Werbung</strong>, kein Verkauf oder Weitergabe von Daten.</li>
+      <li>Die Erweiterung verarbeitet deine ChatGPT-Daten <strong>nur lokal in deinem Browser</strong> und sendet Anfragen <strong>nur an <code>chatgpt.com</code></strong>, und zwar nur für die Aktionen, die du auslöst.</li>
+    </ul>
+
+    <h2>3. Welche Daten verarbeitet werden</h2>
+    <div class="doc-table">
+      <table>
+        <thead><tr><th scope="col">Daten</th><th scope="col">Zweck</th><th scope="col">Wo</th><th scope="col">Wie lange</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Chat-Metadaten</strong>: ID, Titel, Zeitpunkt der letzten Änderung, Archiv-Status</td><td>Liste anzeigen, suchen, filtern, sortieren, Massenaktionen</td><td>Arbeitsspeicher der Manager-Seite</td><td>bis der Manager-Tab geschlossen oder neu geladen wird</td></tr>
+          <tr><td><strong>Zugriffstoken der ChatGPT-Sitzung</strong></td><td>Anfragen an <code>chatgpt.com</code> im Namen deiner bestehenden Anmeldung</td><td>nur im Arbeitsspeicher des ChatGPT-Tabs</td><td>bis der ChatGPT-Tab geschlossen oder neu geladen wird</td></tr>
+          <tr><td><strong>Lokale Favoriten</strong>: Chat-IDs und Zeitpunkt der Markierung</td><td>Favoritenansicht und Löschschutz</td><td><code>chrome.storage.local</code> in diesem Browser</td><td>bis du sie entfernst (einzeln oder über Einstellungen → „Alle lokalen Favoriten entfernen“) oder die Erweiterung deinstallierst</td></tr>
+          <tr><td><strong>Einstellungen</strong>: Sprache, Löschschutz, Pause zwischen Anfragen, Sortierung</td><td>Bedienung</td><td><code>chrome.storage.local</code></td><td>bis zur Deinstallation der Erweiterung</td></tr>
+          <tr><td><strong>Exportdateien</strong> (JSON/CSV: ID, Titel, Änderungszeitpunkt, Archiv-Status, Favorit, Link)</td><td>Sicherung durch dich</td><td>wird lokal erzeugt und nur auf deinen Klick heruntergeladen</td><td>liegt danach in deiner Verantwortung</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Das Zugriffstoken wird <strong>nie</strong> protokolliert, gespeichert, an die Manager-Seite weitergegeben oder an andere Hosts als <code>chatgpt.com</code> gesendet. <strong>Chat-Inhalte</strong> (Nachrichten) werden nicht abgerufen.</p>
+    <p><code>chrome.storage.local</code> wird <strong>nicht</strong> über dein Google-Konto synchronisiert.</p>
+
+    <h2>4. Übermittlung an Dritte</h2>
+    <ul>
+      <li><strong>OpenAI (<code>chatgpt.com</code>)</strong>: Die Erweiterung ruft Chat-Listen ab und ändert auf deinen Befehl den Archiv- oder Sichtbarkeitsstatus von Chats. Diese Anfragen gehen direkt von deinem Browser mit deiner bestehenden Sitzung an OpenAI. Dafür gilt die Datenschutzerklärung von OpenAI. Was OpenAI mit gelöschten Chats macht und wie lange sie gespeichert bleiben, bestimmt OpenAI, nicht diese Erweiterung.</li>
+      <li><strong>Sonst niemand.</strong> Es gibt keine Analyse-, Fehlerberichts- oder Werbedienste.</li>
+    </ul>
+
+    <h2>5. Buy Me a Coffee</h2>
+    <p>Die Oberfläche enthält einen Link zu <code>buymeacoffee.com/rockstaa</code>. Es ist ein normaler Link, der sich <strong>nur auf deinen Klick</strong> in einem neuen Tab öffnet. Es wird kein Skript, Widget oder Bild von Buy Me a Coffee geladen, und es werden keine Daten aus der Erweiterung übermittelt. Nach dem Klick gilt die Datenschutzerklärung von Buy Me a Coffee. Eine Spende schaltet keine Funktionen frei.</p>
+
+    <h2>6. Berechtigungen</h2>
+    <ul>
+      <li><strong><code>storage</code></strong>: Favoriten und Einstellungen lokal speichern.</li>
+      <li><strong>Hostzugriff auf <code>https://chatgpt.com/*</code></strong>: Ein Content Script auf <code>chatgpt.com</code> nutzt deine bestehende Sitzung, um Chat-Listen zu laden und Chats zu archivieren, wiederherzustellen oder zu löschen.</li>
+    </ul>
+
+    <h2>7. Deine Rechte</h2>
+    <p>Da der Herausgeber keine personenbezogenen Daten von dir erhält oder speichert, liegen alle von der Erweiterung gespeicherten Daten ausschließlich in deinem Browser und unter deiner Kontrolle. Du kannst Favoriten jederzeit entfernen (Einstellungen → „Alle lokalen Favoriten entfernen“); mit der Deinstallation werden alle lokalen Daten der Erweiterung gelöscht. Für Fragen erreichst du uns unter der oben genannten E-Mail-Adresse. Wenn du dem Herausgeber eine E-Mail schickst, wird diese nur zur Beantwortung verwendet. Du hast außerdem das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu beschweren.</p>
+
+    <h2>8. Änderungen</h2>
+    <p>Ändert sich das Verhalten der Erweiterung in Bezug auf Daten, wird diese Erklärung vorher aktualisiert. Das Datum oben zeigt den aktuellen Stand.</p>
+  </article>
+
+  <article id="en" lang="en" class="doc-section">
+    <h1>Privacy Policy</h1>
+    <p class="doc-meta">Chat Manager for ChatGPT · Last updated: <time datetime="2026-11-18">2026-11-18</time> · applies to version 2.x</p>
+
+    <h2>1. Responsible person and contact</h2>
+    <p>Responsible: <strong>Dennis Werner</strong> (publisher "DenDev")<br>
+      Email: <a href="mailto:dendev.labs@gmail.com">dendev.labs@gmail.com</a></p>
+    <p>"Chat Manager for ChatGPT" is an independent project. It is <strong>not an OpenAI product</strong> and is not affiliated with or endorsed by OpenAI.</p>
+
+    <h2>2. Summary</h2>
+    <ul>
+      <li><strong>No own server.</strong> The publisher receives no data from you.</li>
+      <li><strong>No tracking, no analytics, no ads.</strong> No data is sold or shared.</li>
+      <li>Your ChatGPT data is processed <strong>locally in your browser only</strong>, and requests are sent <strong>only to <code>chatgpt.com</code></strong>, only for actions you start.</li>
+    </ul>
+
+    <h2>3. Data processed</h2>
+    <div class="doc-table">
+      <table>
+        <thead><tr><th scope="col">Data</th><th scope="col">Purpose</th><th scope="col">Where</th><th scope="col">Retention</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Chat metadata</strong>: ID, title, last-updated time, archive state</td><td>show, search, filter, sort, bulk actions</td><td>memory of the manager page</td><td>until the manager tab is closed or reloaded</td></tr>
+          <tr><td><strong>ChatGPT session access token</strong></td><td>requests to <code>chatgpt.com</code> using your existing sign-in</td><td>memory of the ChatGPT tab only</td><td>until that tab is closed or reloaded</td></tr>
+          <tr><td><strong>Local favorites</strong>: chat IDs and time marked</td><td>favorites view, delete protection</td><td><code>chrome.storage.local</code> in this browser</td><td>until you remove them (individually or via Settings → "Remove all local favorites") or uninstall</td></tr>
+          <tr><td><strong>Settings</strong>: language, delete protection, request delay, sort</td><td>operation</td><td><code>chrome.storage.local</code></td><td>until the extension is uninstalled</td></tr>
+          <tr><td><strong>Export files</strong> (JSON/CSV: ID, title, updated time, archive state, favorite, link)</td><td>your own backup</td><td>generated locally, downloaded only on your click</td><td>your responsibility afterwards</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The access token is <strong>never</strong> logged, stored, passed to the manager page, or sent to any host other than <code>chatgpt.com</code>. <strong>Chat contents</strong> (messages) are not fetched. <code>chrome.storage.local</code> is not synced to your Google account.</p>
+
+    <h2>4. Third parties</h2>
+    <ul>
+      <li><strong>OpenAI (<code>chatgpt.com</code>)</strong>: the extension lists your chats and, on your command, changes their archive or visibility state, directly from your browser with your existing session. OpenAI's privacy policy applies. How OpenAI handles and retains deleted chats is determined by OpenAI, not by this extension.</li>
+      <li><strong>Nobody else.</strong> No analytics, crash reporting or advertising services.</li>
+    </ul>
+
+    <h2>5. Buy Me a Coffee</h2>
+    <p>The UI contains a plain link to <code>buymeacoffee.com/rockstaa</code> that opens in a new tab <strong>only when you click it</strong>. No script, widget or image from Buy Me a Coffee is loaded and no extension data is sent. After the click, Buy Me a Coffee's privacy policy applies. Donating unlocks no features.</p>
+
+    <h2>6. Permissions</h2>
+    <ul>
+      <li><strong><code>storage</code></strong>: store favorites and settings locally.</li>
+      <li><strong>Host access to <code>https://chatgpt.com/*</code></strong>: a content script on <code>chatgpt.com</code> uses your existing session to list chats and archive, restore or delete them.</li>
+    </ul>
+
+    <h2>7. Your rights</h2>
+    <p>The publisher does not receive or store your personal data. Everything the extension stores stays in your browser under your control and can be removed at any time: favorites via Settings → "Remove all local favorites"; uninstalling removes all local extension data. Questions: use the email address above. Emails you send are used only to reply. You also have the right to complain to a data protection authority.</p>
+
+    <h2>8. Changes</h2>
+    <p>If the extension's data handling changes, this policy is updated beforehand. The date at the top shows the current version.</p>
+  </article>
+</main>
+</body>
+</html>
