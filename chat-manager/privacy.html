@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Datenschutzerklärung / Privacy Policy – Chat Manager for ChatGPT</title>
   <link rel="icon" href="icons/icon48.png">
+  <script src="src/theme.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,7 +19,7 @@
 
   <article id="de" lang="de" class="doc-section">
     <h1>Datenschutzerklärung</h1>
-    <p class="doc-meta">Chat Manager for ChatGPT · Stand: <time datetime="2026-11-18">18.11.2026</time> · gilt für Version 2.x</p>
+    <p class="doc-meta">Chat Manager for ChatGPT · Stand: <time datetime="2026-11-21">21.11.2026</time> · gilt für Version 2.x</p>
 
     <h2>1. Verantwortlicher und Kontakt</h2>
     <p>Verantwortlich: <strong>Dennis Werner</strong> (Publisher „DenDev“)<br>
@@ -27,7 +28,7 @@
 
     <h2>2. Kurzfassung</h2>
     <ul>
-      <li>Die Erweiterung hat <strong>keinen eigenen Server</strong>. Der Herausgeber erhält keine Daten von dir.</li>
+      <li>Die Erweiterung hat <strong>keinen eigenen Server</strong>. Die Erweiterung sendet dem Herausgeber keine Daten. Er erhält nur, was du ihm selbst per E-Mail schickst (zum Beispiel eine Diagnose).</li>
       <li><strong>Kein Tracking, keine Analyse- oder Statistikdienste, keine Werbung</strong>, kein Verkauf oder Weitergabe von Daten.</li>
       <li>Die Erweiterung verarbeitet deine ChatGPT-Daten <strong>nur lokal in deinem Browser</strong> und sendet Anfragen <strong>nur an <code>chatgpt.com</code></strong>, und zwar nur für die Aktionen, die du auslöst.</li>
     </ul>
@@ -41,7 +42,9 @@
           <tr><td><strong>Projektliste</strong>: ID und Name deiner ChatGPT-Projekte</td><td>Projektnamen anzeigen, nach Projekt filtern, Ziel beim Verschieben wählen</td><td>Arbeitsspeicher der Manager-Seite</td><td>bis der Manager-Tab geschlossen oder neu geladen wird</td></tr>
           <tr><td><strong>Zugriffstoken der ChatGPT-Sitzung</strong></td><td>Anfragen an <code>chatgpt.com</code> im Namen deiner bestehenden Anmeldung</td><td>nur im Arbeitsspeicher des ChatGPT-Tabs</td><td>bis der ChatGPT-Tab geschlossen oder neu geladen wird</td></tr>
           <tr><td><strong>Lokale Favoriten</strong>: Chat-IDs und Zeitpunkt der Markierung</td><td>Favoritenansicht und Löschschutz</td><td><code>chrome.storage.local</code> in diesem Browser</td><td>bis du sie entfernst (einzeln oder über Einstellungen → „Alle lokalen Favoriten entfernen“) oder die Erweiterung deinstallierst</td></tr>
-          <tr><td><strong>Einstellungen</strong>: Sprache, Löschschutz, Pause zwischen Anfragen, Sortierung</td><td>Bedienung</td><td><code>chrome.storage.local</code></td><td>bis zur Deinstallation der Erweiterung</td></tr>
+          <tr><td><strong>Einstellungen</strong>: Sprache, Darstellung (hell/dunkel), Löschschutz, Archivierschutz, Merker, ob die Einführung schon angezeigt wurde, Pause zwischen Anfragen, Sortierung</td><td>Bedienung</td><td><code>chrome.storage.local</code></td><td>bis zur Deinstallation der Erweiterung</td></tr>
+          <tr><td><strong>Gespeicherte Filter</strong>: Name, Suchbegriff, Zeitraum, Projektfilter (bei einem einzelnen Projekt dessen ID, nicht der Name), Titelfilter, Sortierung</td><td>gespeicherte Filter mit einem Klick wieder anwenden</td><td><code>chrome.storage.local</code></td><td>bis du sie im Menü „Meine Filter“ löschst oder die Erweiterung deinstallierst</td></tr>
+          <tr><td><strong>Diagnose</strong> (nur auf Wunsch): Version der Erweiterung, Browser mit Hauptversion, Betriebssystem, Sprache, Verbindungsstatus, Anzahl geladener Chats und Favoriten, Einstellungen, Codes der letzten Fehler. <strong>Keine</strong> Chat-Titel, Chat-Inhalte, Chat-IDs, Projektnamen oder Zugangsdaten</td><td>Fehlersuche, wenn du sie selbst an den Herausgeber schickst</td><td>Arbeitsspeicher der Manager-Seite; in die Zwischenablage nur, wenn du auf „Kopieren“ klickst</td><td>bis der Manager-Tab geschlossen oder neu geladen wird; was du verschickst, entscheidest du</td></tr>
           <tr><td><strong>Exportdateien</strong> (JSON/CSV: ID, Titel, Änderungszeitpunkt, Archiv-Status, Favorit, Projekt (ja/nein), Link)</td><td>Sicherung durch dich</td><td>wird lokal erzeugt und nur auf deinen Klick heruntergeladen</td><td>liegt danach in deiner Verantwortung</td></tr>
         </tbody>
       </table>
@@ -65,7 +68,7 @@
     </ul>
 
     <h2>7. Deine Rechte</h2>
-    <p>Da der Herausgeber keine personenbezogenen Daten von dir erhält oder speichert, liegen alle von der Erweiterung gespeicherten Daten ausschließlich in deinem Browser und unter deiner Kontrolle. Du kannst Favoriten jederzeit entfernen (Einstellungen → „Alle lokalen Favoriten entfernen“); mit der Deinstallation werden alle lokalen Daten der Erweiterung gelöscht. Für Fragen erreichst du uns unter der oben genannten E-Mail-Adresse. Wenn du dem Herausgeber eine E-Mail schickst, wird diese nur zur Beantwortung verwendet. Du hast außerdem das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu beschweren.</p>
+    <p>Da die Erweiterung dem Herausgeber keine personenbezogenen Daten übermittelt, liegen alle von der Erweiterung gespeicherten Daten ausschließlich in deinem Browser und unter deiner Kontrolle. Du kannst Favoriten jederzeit entfernen (Einstellungen → „Alle lokalen Favoriten entfernen“) und gespeicherte Filter im Menü „Meine Filter“ löschen; mit der Deinstallation werden alle lokalen Daten der Erweiterung gelöscht. Für Fragen erreichst du uns unter der oben genannten E-Mail-Adresse. Wenn du dem Herausgeber eine E-Mail schickst, auch mit einer Diagnose, wird diese nur zur Beantwortung und Fehlersuche verwendet. Du hast außerdem das Recht, dich bei einer Datenschutz-Aufsichtsbehörde zu beschweren.</p>
 
     <h2>8. Änderungen</h2>
     <p>Ändert sich das Verhalten der Erweiterung in Bezug auf Daten, wird diese Erklärung vorher aktualisiert. Das Datum oben zeigt den aktuellen Stand.</p>
@@ -73,7 +76,7 @@
 
   <article id="en" lang="en" class="doc-section">
     <h1>Privacy Policy</h1>
-    <p class="doc-meta">Chat Manager for ChatGPT · Last updated: <time datetime="2026-11-18">2026-11-18</time> · applies to version 2.x</p>
+    <p class="doc-meta">Chat Manager for ChatGPT · Last updated: <time datetime="2026-11-21">2026-11-21</time> · applies to version 2.x</p>
 
     <h2>1. Responsible person and contact</h2>
     <p>Responsible: <strong>Dennis Werner</strong> (publisher "DenDev")<br>
@@ -82,7 +85,7 @@
 
     <h2>2. Summary</h2>
     <ul>
-      <li><strong>No own server.</strong> The publisher receives no data from you.</li>
+      <li><strong>No own server.</strong> The extension sends no data to the publisher. The publisher only receives what you email yourself (for example diagnostics).</li>
       <li><strong>No tracking, no analytics, no ads.</strong> No data is sold or shared.</li>
       <li>Your ChatGPT data is processed <strong>locally in your browser only</strong>, and requests are sent <strong>only to <code>chatgpt.com</code></strong>, only for actions you start.</li>
     </ul>
@@ -96,7 +99,9 @@
           <tr><td><strong>Project list</strong>: ID and name of your ChatGPT projects</td><td>show project names, filter by project, choose the destination when moving</td><td>memory of the manager page</td><td>until the manager tab is closed or reloaded</td></tr>
           <tr><td><strong>ChatGPT session access token</strong></td><td>requests to <code>chatgpt.com</code> using your existing sign-in</td><td>memory of the ChatGPT tab only</td><td>until that tab is closed or reloaded</td></tr>
           <tr><td><strong>Local favorites</strong>: chat IDs and time marked</td><td>favorites view, delete protection</td><td><code>chrome.storage.local</code> in this browser</td><td>until you remove them (individually or via Settings → "Remove all local favorites") or uninstall</td></tr>
-          <tr><td><strong>Settings</strong>: language, delete protection, request delay, sort</td><td>operation</td><td><code>chrome.storage.local</code></td><td>until the extension is uninstalled</td></tr>
+          <tr><td><strong>Settings</strong>: language, appearance (light/dark), delete protection, archive protection, whether the introduction was already shown, request delay, sort</td><td>operation</td><td><code>chrome.storage.local</code></td><td>until the extension is uninstalled</td></tr>
+          <tr><td><strong>Saved filters</strong>: name, search text, period, project filter (for a single project its ID, not its name), title filter, sort</td><td>re-apply a saved filter with one click</td><td><code>chrome.storage.local</code></td><td>until you delete them in the "My filters" menu or uninstall</td></tr>
+          <tr><td><strong>Diagnostics</strong> (only on request): extension version, browser and major version, operating system, language, connection state, number of loaded chats and favorites, settings, codes of recent errors. <strong>No</strong> chat titles, chat contents, chat IDs, project names or credentials</td><td>troubleshooting, if you send it to the publisher yourself</td><td>memory of the manager page; copied to the clipboard only when you click "Copy"</td><td>until the manager tab is closed or reloaded; whether you send it is up to you</td></tr>
           <tr><td><strong>Export files</strong> (JSON/CSV: ID, title, updated time, archive state, favorite, project (yes/no), link)</td><td>your own backup</td><td>generated locally, downloaded only on your click</td><td>your responsibility afterwards</td></tr>
         </tbody>
       </table>
@@ -119,7 +124,7 @@
     </ul>
 
     <h2>7. Your rights</h2>
-    <p>The publisher does not receive or store your personal data. Everything the extension stores stays in your browser under your control and can be removed at any time: favorites via Settings → "Remove all local favorites"; uninstalling removes all local extension data. Questions: use the email address above. Emails you send are used only to reply. You also have the right to complain to a data protection authority.</p>
+    <p>The extension does not transmit your personal data to the publisher. Everything the extension stores stays in your browser under your control and can be removed at any time: favorites via Settings → "Remove all local favorites", saved filters in the "My filters" menu; uninstalling removes all local extension data. Questions: use the email address above. Emails you send, including any diagnostics, are used only to reply and to troubleshoot. You also have the right to complain to a data protection authority.</p>
 
     <h2>8. Changes</h2>
     <p>If the extension's data handling changes, this policy is updated beforehand. The date at the top shows the current version.</p>

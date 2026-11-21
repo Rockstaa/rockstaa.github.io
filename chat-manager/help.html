@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Handbuch / Handbook – Chat Manager for ChatGPT</title>
+  <link rel="icon" href="icons/icon48.png">
+  <script src="src/theme.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="app doc handbook">
+  <!-- Handbook for version 2.2. Images: npm run handbook-images (real UI with demo data). -->
+  <nav class="doc-lang" aria-label="Sprache / Language">
+    <a href="./" class="doc-home">Chat Manager for ChatGPT</a>
+    <a href="#de" lang="de" data-lang="de">Deutsch</a>
+    <a href="#en" lang="en" data-lang="en">English</a>
+  </nav>
+
+  <!-- ============================== DEUTSCH ============================== -->
+  <article id="de" lang="de" class="doc-section">
+    <h1>Handbuch</h1>
+    <p class="doc-meta">Chat Manager for ChatGPT · Version 2.2 · unabhängiges Projekt, kein Produkt von OpenAI</p>
+
+    <nav class="toc" aria-label="Inhalt">
+      <ol>
+        <li><a href="#de-start">Erste Schritte</a></li>
+        <li><a href="#de-overview">Die Oberfläche</a></li>
+        <li><a href="#de-filter">Suchen, filtern, sortieren</a></li>
+        <li><a href="#de-select">Auswählen</a></li>
+        <li><a href="#de-actions">Massenaktionen</a></li>
+        <li><a href="#de-favorites">Favoriten und Schutz</a></li>
+        <li><a href="#de-export">Export</a></li>
+        <li><a href="#de-settings">Einstellungen</a></li>
+        <li><a href="#de-errors">Meldungen und Lösungen</a></li>
+        <li><a href="#de-faq">Häufige Fragen</a></li>
+        <li><a href="#de-privacy">Datenschutz und Kontakt</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="de-start">1. Erste Schritte</h2>
+    <ol>
+      <li>Öffne <a href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">chatgpt.com</a> in einem Tab und melde dich an.</li>
+      <li>Klicke in der Chrome-Symbolleiste auf das Symbol der Erweiterung (ggf. erst über das Puzzle-Symbol anheften). Der Manager öffnet sich in einem eigenen Tab. Ein zweiter Klick wechselt zum bereits offenen Manager.</li>
+      <li>Oben rechts zeigt eine Anzeige den Verbindungsstatus. Bei „Mit ChatGPT verbunden“ lädt der Manager deine aktiven Chats.</li>
+    </ol>
+    <p>Die Erweiterung hat keinen eigenen Server und kein eigenes Konto. Sie arbeitet mit deiner bestehenden Anmeldung im ChatGPT-Tab. Dieser Tab muss geöffnet bleiben, solange du den Manager benutzt.</p>
+    <p>Beim ersten Start erklärt eine kurze Einführung in fünf Schritten die wichtigsten Bereiche. Du kannst sie überspringen und später unter <em>Einstellungen → Einführung erneut anzeigen</em> wieder starten.</p>
+    <figure>
+      <img src="help/img/de/welcome-light.webp" width="1280" height="800" loading="lazy" alt="Manager im hellen Design mit der Einführungskarte unten rechts; die Filterleiste ist hervorgehoben.">
+      <figcaption>Die Einführung beim ersten Start (hier im hellen Design).</figcaption>
+    </figure>
+
+    <h2 id="de-overview">2. Die Oberfläche</h2>
+    <figure>
+      <img src="help/img/de/overview.webp" width="1280" height="800" loading="lazy" alt="Übersicht des Managers: Kopfzeile, Statistik, Tabs, Filterleiste und Chatliste.">
+    </figure>
+    <ul>
+      <li><strong>Statistik:</strong> Anzahl aktiver und archivierter Chats, lokaler Favoriten, der gerade gefilterten und der ausgewählten Chats. „–“ bedeutet: noch nicht geladen.</li>
+      <li><strong>Tabs:</strong> <em>Aktiv</em>, <em>Archiv</em> und <em>Favoriten</em>. Das Archiv wird beim ersten Öffnen des Tabs geladen, die Favoriten-Ansicht braucht beide Listen.</li>
+      <li><strong>Liste:</strong> Titel, Datum der letzten Änderung und Kennzeichen wie „Projekt: …“, „Archiviert“ oder „Geschützt“. Der Stern markiert einen Favoriten, das Pfeil-Symbol öffnet den Chat in ChatGPT. Angezeigt werden zunächst 300 Chats, weitere mit „… weitere anzeigen“.</li>
+      <li><strong>Neu laden</strong> holt die Liste erneut von ChatGPT. Das ist nach Änderungen in ChatGPT selbst sinnvoll.</li>
+    </ul>
+
+    <h2 id="de-filter">3. Suchen, filtern, sortieren</h2>
+    <figure>
+      <img src="help/img/de/filters.webp" width="1112" height="341" loading="lazy" alt="Filterleiste mit Zeitraum „Älter als 90 Tage“ und Titel „Nur unbenannte“; darunter zwei Chats „New chat“.">
+    </figure>
+    <ul>
+      <li><strong>Suche</strong> durchsucht die Chat-Titel, nicht die Inhalte. Die Taste <kbd>/</kbd> springt ins Suchfeld.</li>
+      <li><strong>Zuletzt aktualisiert:</strong> letzte 7, 30 oder 90 Tage, älter als 30, 90 oder 365 Tage oder ein eigener Zeitraum. Chats ohne Datum fallen bei jedem Zeitfilter heraus, damit sie nicht versehentlich in einer Massenaktion landen.</li>
+      <li><strong>Projekte:</strong> alle Chats, ohne Projekt-Chats, nur Projekt-Chats oder ein einzelnes ChatGPT-Projekt.</li>
+      <li><strong>Titel:</strong> „Nur unbenannte“ zeigt Chats ohne Titel oder mit ChatGPTs Standardtitel „New chat“ (so heißen neue Chats auch bei deutscher Oberfläche). Das sind oft Wegwerf-Chats. „Ohne unbenannte“ blendet sie aus.</li>
+      <li><strong>Sortierung:</strong> zuletzt aktualisiert, älteste zuerst, Titel A–Z oder Z–A. Die Wahl wird gespeichert.</li>
+    </ul>
+    <p>Alle Filter lassen sich kombinieren. „Filter zurücksetzen“ hebt alle auf einmal auf.</p>
+    <h3>Meine Filter</h3>
+    <figure>
+      <img src="help/img/de/presets.webp" width="1112" height="335" loading="lazy" alt="Geöffnetes Menü „Meine Filter“ mit dem gespeicherten Filter „Alt und unbenannt“ und einem Feld zum Speichern.">
+    </figure>
+    <p>Unter <strong>Meine Filter</strong> speicherst du die aktuelle Kombination aus Suche, Zeitraum, Projekt, Titel und Sortierung unter einem Namen (bis zu 20). Ein Klick auf den Namen stellt sie wieder her; ein gleicher Name überschreibt den alten Eintrag, das × löscht ihn. <strong>Beim Anwenden wird nie etwas ausgewählt</strong>, ein gespeicherter Filter kann also keine Aktion auslösen.</p>
+
+    <h2 id="de-select">4. Auswählen</h2>
+    <figure>
+      <img src="help/img/de/selection.webp" width="1094" height="425" loading="lazy" alt="Fünf ausgewählte Chats, darüber die Aktionsleiste mit Favorisieren, Archivieren, Verschieben und Löschen.">
+    </figure>
+    <ul>
+      <li>Setze Häkchen bei einzelnen Chats oder wähle mit <strong>Alle auswählen</strong> alle gerade sichtbaren Chats aus.</li>
+      <li><strong>Umschalt+Klick</strong> auf ein zweites Häkchen wählt alle Chats dazwischen aus. Entfernst du das Häkchen mit Umschalt+Klick, wird der ganze Bereich abgewählt.</li>
+      <li>Ausgewählt sein können nur <strong>sichtbare</strong> Chats: Blendet ein Filter einen ausgewählten Chat aus, wird er abgewählt. Beim Wechsel zwischen Aktiv, Archiv und Favoriten wird die Auswahl geleert.</li>
+    </ul>
+
+    <h2 id="de-actions">5. Massenaktionen</h2>
+    <ul>
+      <li><strong>Favorisieren</strong> markiert alle ausgewählten Chats als lokale Favoriten (oder entfernt die Markierung, wenn alle schon Favoriten sind).</li>
+      <li><strong>Archivieren</strong> verschiebt Chats ins ChatGPT-Archiv, <strong>Wiederherstellen</strong> (im Archiv) holt sie zurück.</li>
+      <li><strong>Verschieben</strong> legt Chats in ein ChatGPT-Projekt oder nimmt sie mit „Kein Projekt“ aus ihrem Projekt heraus. Chats, die schon am Ziel sind, werden übersprungen.</li>
+      <li><strong>Löschen</strong> entfernt Chats über ChatGPT. Du bestätigst mit dem Wort „LÖSCHEN“. Geschützte Favoriten werden übersprungen (siehe <a href="#de-favorites">Favoriten und Schutz</a>).</li>
+    </ul>
+    <figure class="narrow">
+      <img src="help/img/de/delete.webp" width="480" height="410" loading="lazy" alt="Bestätigungsdialog „5 Chats löschen?“ mit Hinweis auf einen geschützten Favoriten und dem Eingabefeld für LÖSCHEN.">
+    </figure>
+    <p>Vor jeder Aktion zeigt ein Dialog, wie viele Chats betroffen sind und ob Projekt-Chats oder geschützte Favoriten dabei sind.</p>
+    <h3>Ablauf, Abbrechen und Fehler</h3>
+    <figure>
+      <img src="help/img/de/progress.webp" width="1094" height="183" loading="lazy" alt="Fortschrittsanzeige: 32 %, 7 von 22 verarbeitet, Button „Nach aktueller Anfrage stoppen“.">
+    </figure>
+    <ul>
+      <li>Es läuft immer nur <strong>eine Anfrage gleichzeitig</strong>, mit einer kurzen Pause dazwischen (einstellbar).</li>
+      <li><strong>Nach aktueller Anfrage stoppen</strong> hält die Aktion vor dem nächsten Chat an. Bereits bearbeitete Chats bleiben bearbeitet.</li>
+      <li>Bei vorübergehenden Fehlern (zu viele Anfragen, Serverfehler, Zeitüberschreitung) versucht die Erweiterung jeden Chat bis zu dreimal, mit wachsender Wartezeit. Lehnt ChatGPT danach immer noch ab (HTTP 429), <strong>stoppt die Aktion</strong>, statt weitere Chats anzufragen.</li>
+      <li>Am Ende siehst du, wie viele Chats erfolgreich waren und welche fehlgeschlagen sind. <strong>Fehlgeschlagene erneut versuchen</strong> (nach einem Stopp wegen HTTP 429: <strong>Erneut versuchen</strong>) wiederholt nur die nicht erledigten Chats, erfolgreiche nie.</li>
+      <li>Schließt du den Manager während einer Aktion, fragt der Browser vorher nach.</li>
+      <li>Die Seitenleiste von ChatGPT zeigt Änderungen oft erst nach einem Neuladen des ChatGPT-Tabs.</li>
+    </ul>
+
+    <h2 id="de-favorites">6. Favoriten und Schutz</h2>
+    <ul>
+      <li>Mit dem <strong>Stern</strong> markierst du einen Chat als lokalen Favoriten. Favoriten sind eine Funktion <strong>dieser Erweiterung</strong>, nicht von ChatGPT. Sie werden nur in diesem Browser gespeichert und nicht synchronisiert.</li>
+      <li><strong>Löschschutz</strong> (standardmäßig an): Beim Massenlöschen werden Favoriten übersprungen. Willst du sie trotzdem löschen, setzt du im Dialog das Häkchen „Geschützte Favoriten trotzdem löschen“ und tippst „FAVORITEN LÖSCHEN“.</li>
+      <li><strong>Archivierschutz</strong> (standardmäßig aus, in den Einstellungen): Favoriten werden auch beim Archivieren übersprungen. Im Dialog kannst du sie per Häkchen einschließen.</li>
+      <li>Der Tab <strong>Favoriten</strong> zeigt alle Favoriten aus aktiven und archivierten Chats. Fehlen dort welche, wurden sie vermutlich außerhalb der Erweiterung gelöscht.</li>
+    </ul>
+
+    <h2 id="de-export">7. Export</h2>
+    <figure class="narrow">
+      <img src="help/img/de/export.webp" width="302" height="271" loading="lazy" alt="Export-Menü mit „Metadaten als JSON“ und „Titelliste als CSV“.">
+    </figure>
+    <p>Exportiert werden die ausgewählten Chats, ohne Auswahl alle gerade gefilterten. Die Datei wird lokal erzeugt und heruntergeladen.</p>
+    <ul>
+      <li><strong>JSON:</strong> ID, Titel, Zeitpunkt der letzten Änderung, archiviert, Favorit, Projekt (ja/nein) und Link zum Chat.</li>
+      <li><strong>CSV:</strong> dieselben Spalten als Tabelle, z. B. für Excel.</li>
+    </ul>
+    <p>Der Export enthält <strong>keine Chat-Inhalte</strong>, die Erweiterung ruft sie gar nicht ab. Für eine vollständige Sicherung nutze den Datenexport in den ChatGPT-Einstellungen.</p>
+
+    <h2 id="de-settings">8. Einstellungen</h2>
+    <figure class="narrow">
+      <img src="help/img/de/settings.webp" width="480" height="752" loading="lazy" alt="Einstellungsdialog mit Sprache, Darstellung, Schutzoptionen und Pause zwischen Anfragen.">
+    </figure>
+    <ul>
+      <li><strong>Sprache:</strong> Browser-Standard, Deutsch oder Englisch.</li>
+      <li><strong>Darstellung:</strong> wie das System, dunkel oder hell.</li>
+      <li><strong>Löschschutz</strong> und <strong>Archivierschutz</strong> für Favoriten (siehe oben).</li>
+      <li><strong>Pause zwischen Anfragen:</strong> 0,3 bis 2 Sekunden. Eine längere Pause hilft, wenn ChatGPT „zu viele Anfragen“ meldet.</li>
+      <li><strong>Lokale Daten:</strong> alle Favoriten auf einmal entfernen.</li>
+      <li><strong>Einführung</strong> erneut anzeigen und <strong>Diagnose</strong> (siehe <a href="#de-errors">Meldungen und Lösungen</a>).</li>
+    </ul>
+
+    <h2 id="de-errors">9. Meldungen und Lösungen</h2>
+    <div class="doc-table">
+      <table>
+        <thead><tr><th scope="col">Meldung</th><th scope="col">Was tun?</th></tr></thead>
+        <tbody>
+          <tr><td>Kein ChatGPT-Tab geöffnet</td><td>chatgpt.com in einem Tab öffnen, anmelden, dann „Erneut prüfen“.</td></tr>
+          <tr><td>ChatGPT-Tab neu laden</td><td>Passiert nach Installation oder Update der Erweiterung. Der Button lädt nur die ChatGPT-Tabs neu, die nicht antworten.</td></tr>
+          <tr><td>Nicht angemeldet / Sitzung nicht verfügbar</td><td>Im ChatGPT-Tab anmelden bzw. den Tab neu laden, dann „Erneut prüfen“.</td></tr>
+          <tr><td>ChatGPT bremst die Anfragen. Neuer Versuch in … s</td><td>Nichts tun, die Erweiterung wartet und versucht es erneut.</td></tr>
+          <tr><td>Zu viele Anfragen (HTTP 429) / Aktion gestoppt</td><td>Einige Minuten warten, dann „Erneut versuchen“. In den Einstellungen eine längere Pause wählen.</td></tr>
+          <tr><td>ChatGPT-Serverfehler, Zeitüberschreitung, Netzwerkfehler</td><td>Internetverbindung prüfen und später erneut versuchen.</td></tr>
+          <tr><td>Liste unvollständig</td><td>Das Laden wurde unterbrochen. Aktionen betreffen nur die angezeigten Chats. „Erneut versuchen“ lädt die Liste neu.</td></tr>
+          <tr><td>ChatGPT hat eine unerwartete Antwort geschickt</td><td>ChatGPT hat vermutlich seine (nicht offizielle) Schnittstelle geändert. Die Erweiterung zeigt dann bewusst nichts Unvollständiges an und ändert nichts. ChatGPT neu laden; bleibt der Fehler, hilft nur ein Update der Erweiterung.</td></tr>
+          <tr><td>Chat nicht gefunden (HTTP 404)</td><td>Der Chat wurde vermutlich schon anderweitig gelöscht. „Neu laden“.</td></tr>
+          <tr><td>Sicherheitsgrenze von 30.000 Chats erreicht</td><td>Die Erweiterung lädt höchstens 30.000 Chats pro Liste.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Diagnose für Problemberichte</h3>
+    <p>Unter <em>Einstellungen → Diagnose anzeigen</em> siehst du technische Angaben: Version, Browser, Sprache, Verbindungsstatus, Anzahl geladener Chats und die Codes der letzten Fehler. Chat-Titel, Inhalte, IDs und Zugangsdaten sind nicht enthalten. Mit „Kopieren“ legst du den Text in die Zwischenablage und kannst ihn per E-Mail an <a href="mailto:dendev.labs@gmail.com">dendev.labs@gmail.com</a> schicken. Automatisch wird nichts gesendet.</p>
+
+    <h2 id="de-faq">10. Häufige Fragen</h2>
+    <dl class="faq">
+      <dt>Ist das eine offizielle Erweiterung von OpenAI?</dt>
+      <dd>Nein. Chat Manager for ChatGPT ist ein unabhängiges Projekt und weder mit OpenAI verbunden noch von OpenAI unterstützt.</dd>
+      <dt>Kann ich das Löschen rückgängig machen?</dt>
+      <dd>Nicht in dieser Erweiterung. Wenn du unsicher bist, archiviere stattdessen, denn Archivieren lässt sich jederzeit rückgängig machen.</dd>
+      <dt>Gibt das Löschen Speicher frei oder entfernt es Chats sofort von OpenAIs Servern?</dt>
+      <dd>Das können wir nicht zusagen. Die Erweiterung löscht Chats über dieselbe Funktion wie die ChatGPT-Weboberfläche. Wie lange OpenAI gelöschte Chats aufbewahrt, bestimmt OpenAI.</dd>
+      <dt>Warum fehlen einzelne Chats?</dt>
+      <dd>Die Erweiterung zeigt, was ChatGPTs Chat-Listen liefern. Sie nutzt dafür nicht offiziell dokumentierte Schnittstellen, die sich ändern können. „Neu laden“ hilft nach Änderungen in ChatGPT.</dd>
+      <dt>Werden meine Chats oder Daten irgendwohin gesendet?</dt>
+      <dd>Nein. Anfragen gehen nur an chatgpt.com, mit deiner bestehenden Anmeldung. Es gibt keinen eigenen Server, kein Tracking und keine Werbung.</dd>
+      <dt>Werden Favoriten und gespeicherte Filter mit meinem Google-Konto synchronisiert?</dt>
+      <dd>Nein, sie liegen nur in diesem Browser. Nach einer Neuinstallation sind sie weg.</dd>
+      <dt>Funktioniert die Erweiterung in anderen Browsern?</dt>
+      <dd>Getestet ist sie in Google Chrome. Andere Chromium-Browser könnten funktionieren, sind aber nicht getestet.</dd>
+      <dt>Kostet die Erweiterung etwas?</dt>
+      <dd>Nein, und das bleibt so. Wenn du die Weiterentwicklung unterstützen möchtest, geht das freiwillig über <a href="https://buymeacoffee.com/rockstaa" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a>. Unterstützer erhalten keine zusätzlichen Funktionen.</dd>
+    </dl>
+
+    <h2 id="de-privacy">11. Datenschutz und Kontakt</h2>
+    <p>Die Erweiterung verarbeitet Chat-Titel und -Metadaten nur im Browser und nutzt das Zugriffstoken deiner ChatGPT-Sitzung nur im ChatGPT-Tab, ohne es zu speichern. Lokal gespeichert werden Favoriten, Einstellungen und gespeicherte Filter. Einzelheiten stehen in der <a href="privacy.html">Datenschutzerklärung</a>.</p>
+    <p>Fragen, Fehler oder Ideen: <a href="mailto:dendev.labs@gmail.com">dendev.labs@gmail.com</a></p>
+  </article>
+
+  <!-- ============================== ENGLISH ============================== -->
+  <article id="en" lang="en" class="doc-section">
+    <h1>Handbook</h1>
+    <p class="doc-meta">Chat Manager for ChatGPT · version 2.2 · independent project, not an OpenAI product</p>
+
+    <nav class="toc" aria-label="Contents">
+      <ol>
+        <li><a href="#en-start">Getting started</a></li>
+        <li><a href="#en-overview">The interface</a></li>
+        <li><a href="#en-filter">Search, filter, sort</a></li>
+        <li><a href="#en-select">Selecting</a></li>
+        <li><a href="#en-actions">Bulk actions</a></li>
+        <li><a href="#en-favorites">Favorites and protection</a></li>
+        <li><a href="#en-export">Export</a></li>
+        <li><a href="#en-settings">Settings</a></li>
+        <li><a href="#en-errors">Messages and solutions</a></li>
+        <li><a href="#en-faq">FAQ</a></li>
+        <li><a href="#en-privacy">Privacy and contact</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="en-start">1. Getting started</h2>
+    <ol>
+      <li>Open <a href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">chatgpt.com</a> in a tab and sign in.</li>
+      <li>Click the extension icon in the Chrome toolbar (pin it via the puzzle icon first if needed). The manager opens in its own tab. Clicking again switches to the manager that is already open.</li>
+      <li>The indicator at the top right shows the connection. With “Connected to ChatGPT” the manager loads your active chats.</li>
+    </ol>
+    <p>The extension has no server and no account of its own. It works with your existing sign-in in the ChatGPT tab, which needs to stay open while you use the manager.</p>
+    <p>On first start, a short five-step introduction explains the main areas. You can skip it and restart it later via <em>Settings → Show introduction again</em>.</p>
+    <figure>
+      <img src="help/img/en/welcome-light.webp" width="1280" height="800" loading="lazy" alt="Manager in the light theme with the introduction card at the bottom right; the filter bar is highlighted.">
+      <figcaption>The introduction on first start (shown in the light theme).</figcaption>
+    </figure>
+
+    <h2 id="en-overview">2. The interface</h2>
+    <figure>
+      <img src="help/img/en/overview.webp" width="1280" height="800" loading="lazy" alt="Manager overview: header, statistics, tabs, filter bar and chat list.">
+    </figure>
+    <ul>
+      <li><strong>Statistics:</strong> number of active and archived chats, local favorites, chats shown by the current filter and selected chats. “–” means not loaded yet.</li>
+      <li><strong>Tabs:</strong> <em>Active</em>, <em>Archive</em> and <em>Favorites</em>. The archive loads when you first open its tab; the favorites view needs both lists.</li>
+      <li><strong>List:</strong> title, last-updated time and labels such as “Project: …”, “Archived” or “Protected”. The star marks a favorite, the arrow icon opens the chat in ChatGPT. The first 300 chats are shown, more via “Show … more”.</li>
+      <li><strong>Reload</strong> fetches the list from ChatGPT again, useful after changes made in ChatGPT itself.</li>
+    </ul>
+
+    <h2 id="en-filter">3. Search, filter, sort</h2>
+    <figure>
+      <img src="help/img/en/filters.webp" width="1112" height="341" loading="lazy" alt="Filter bar with period “Older than 90 days” and title “Untitled only”; below it two chats called “New chat”.">
+    </figure>
+    <ul>
+      <li><strong>Search</strong> looks at chat titles, not contents. The <kbd>/</kbd> key jumps to the search field.</li>
+      <li><strong>Last updated:</strong> last 7, 30 or 90 days, older than 30, 90 or 365 days, or a custom range. Chats without a date never match a date filter, so they cannot end up in a bulk action by accident.</li>
+      <li><strong>Projects:</strong> all chats, without project chats, only project chats, or a single ChatGPT project.</li>
+      <li><strong>Title:</strong> “Untitled only” shows chats without a title or with ChatGPT’s default title “New chat”, often throwaway chats. “Hide untitled” hides them.</li>
+      <li><strong>Sort:</strong> recently updated, oldest first, title A–Z or Z–A. Your choice is remembered.</li>
+    </ul>
+    <p>All filters can be combined. “Reset filters” clears them at once.</p>
+    <h3>My filters</h3>
+    <figure>
+      <img src="help/img/en/presets.webp" width="1112" height="335" loading="lazy" alt="Open “My filters” menu with the saved filter “Old and untitled” and a field to save the current filter.">
+    </figure>
+    <p><strong>My filters</strong> saves the current combination of search, period, project, title and sort order under a name (up to 20). Clicking the name restores it; the same name replaces the old entry, the × deletes it. <strong>Applying a filter never selects chats</strong>, so a saved filter cannot trigger an action.</p>
+
+    <h2 id="en-select">4. Selecting</h2>
+    <figure>
+      <img src="help/img/en/selection.webp" width="1094" height="425" loading="lazy" alt="Five selected chats with the action bar above: Favorite, Archive, Move and Delete.">
+    </figure>
+    <ul>
+      <li>Tick single chats, or use <strong>Select all</strong> for all chats currently shown.</li>
+      <li><strong>Shift+click</strong> on a second checkbox selects every chat in between. Shift+click on a ticked box deselects the whole range.</li>
+      <li>Only <strong>visible</strong> chats can be selected: if a filter hides a selected chat, it is deselected. Switching between Active, Archive and Favorites clears the selection.</li>
+    </ul>
+
+    <h2 id="en-actions">5. Bulk actions</h2>
+    <ul>
+      <li><strong>Favorite</strong> marks all selected chats as local favorites (or removes the mark if all of them are favorites already).</li>
+      <li><strong>Archive</strong> moves chats to the ChatGPT archive; <strong>Restore</strong> (in the archive) brings them back.</li>
+      <li><strong>Move</strong> puts chats into a ChatGPT project, or takes them out with “No project”. Chats already at the destination are skipped.</li>
+      <li><strong>Delete</strong> removes chats through ChatGPT. You confirm by typing “DELETE”. Protected favorites are skipped (see <a href="#en-favorites">Favorites and protection</a>).</li>
+    </ul>
+    <figure class="narrow">
+      <img src="help/img/en/delete.webp" width="480" height="410" loading="lazy" alt="Confirmation dialog “Delete 5 chats?” with a note about a protected favorite and the field for typing DELETE.">
+    </figure>
+    <p>Before every action a dialog shows how many chats are affected and whether project chats or protected favorites are among them.</p>
+    <h3>Progress, stopping and errors</h3>
+    <figure>
+      <img src="help/img/en/progress.webp" width="1094" height="183" loading="lazy" alt="Progress display: 32 %, 7 of 22 processed, button “Stop after current request”.">
+    </figure>
+    <ul>
+      <li>There is only ever <strong>one request at a time</strong>, with a short pause in between (adjustable).</li>
+      <li><strong>Stop after current request</strong> halts the action before the next chat. Chats already processed stay processed.</li>
+      <li>On temporary errors (too many requests, server errors, timeouts) each chat is tried up to three times with growing waits. If ChatGPT still refuses (HTTP 429), <strong>the action stops</strong> instead of requesting further chats.</li>
+      <li>At the end you see how many chats succeeded and which failed. <strong>Retry failed</strong> (after a stop because of HTTP 429: <strong>Retry</strong>) only repeats chats that were not done, never successful ones.</li>
+      <li>If you close the manager during an action, the browser asks first.</li>
+      <li>ChatGPT’s sidebar often shows changes only after reloading the ChatGPT tab.</li>
+    </ul>
+
+    <h2 id="en-favorites">6. Favorites and protection</h2>
+    <ul>
+      <li>The <strong>star</strong> marks a chat as a local favorite. Favorites are a feature of <strong>this extension</strong>, not of ChatGPT. They are stored only in this browser and are not synced.</li>
+      <li><strong>Delete protection</strong> (on by default): bulk deletion skips favorites. To delete them anyway, tick “Also delete protected favorites” in the dialog and type “DELETE FAVORITES”.</li>
+      <li><strong>Archive protection</strong> (off by default, in the settings): favorites are skipped when archiving too. You can include them with a checkbox in the dialog.</li>
+      <li>The <strong>Favorites</strong> tab shows all favorites from active and archived chats. If some are missing there, they were probably deleted outside the extension.</li>
+    </ul>
+
+    <h2 id="en-export">7. Export</h2>
+    <figure class="narrow">
+      <img src="help/img/en/export.webp" width="302" height="252" loading="lazy" alt="Export menu with “Metadata as JSON” and “Title list as CSV”.">
+    </figure>
+    <p>The export contains the selected chats, or all currently filtered chats if nothing is selected. The file is created locally and downloaded.</p>
+    <ul>
+      <li><strong>JSON:</strong> ID, title, last-updated time, archived, favorite, project (yes/no) and a link to the chat.</li>
+      <li><strong>CSV:</strong> the same columns as a table, e.g. for Excel.</li>
+    </ul>
+    <p>The export contains <strong>no chat contents</strong>; the extension does not fetch them. For a complete backup, use the data export in ChatGPT’s settings.</p>
+
+    <h2 id="en-settings">8. Settings</h2>
+    <figure class="narrow">
+      <img src="help/img/en/settings.webp" width="480" height="752" loading="lazy" alt="Settings dialog with language, appearance, protection options and the pause between requests.">
+    </figure>
+    <ul>
+      <li><strong>Language:</strong> browser default, German or English.</li>
+      <li><strong>Appearance:</strong> like the system, dark or light.</li>
+      <li><strong>Delete protection</strong> and <strong>archive protection</strong> for favorites (see above).</li>
+      <li><strong>Pause between requests:</strong> 0.3 to 2 seconds. A longer pause helps when ChatGPT reports “too many requests”.</li>
+      <li><strong>Local data:</strong> remove all favorites at once.</li>
+      <li>Show the <strong>introduction</strong> again, and <strong>diagnostics</strong> (see <a href="#en-errors">Messages and solutions</a>).</li>
+    </ul>
+
+    <h2 id="en-errors">9. Messages and solutions</h2>
+    <div class="doc-table">
+      <table>
+        <thead><tr><th scope="col">Message</th><th scope="col">What to do</th></tr></thead>
+        <tbody>
+          <tr><td>No ChatGPT tab open</td><td>Open chatgpt.com in a tab, sign in, then “Check again”.</td></tr>
+          <tr><td>Reload the ChatGPT tab</td><td>Happens after installing or updating the extension. The button reloads only ChatGPT tabs that do not respond.</td></tr>
+          <tr><td>Not signed in / session not available</td><td>Sign in in the ChatGPT tab or reload it, then “Check again”.</td></tr>
+          <tr><td>ChatGPT is throttling requests. Retrying in … s</td><td>Nothing to do; the extension waits and tries again.</td></tr>
+          <tr><td>Too many requests (HTTP 429) / action stopped</td><td>Wait a few minutes, then “Retry”. Choose a longer pause in the settings.</td></tr>
+          <tr><td>ChatGPT server error, timeout, network error</td><td>Check your internet connection and try again later.</td></tr>
+          <tr><td>List incomplete</td><td>Loading was interrupted. Actions only affect the chats shown. “Try again” loads the list again.</td></tr>
+          <tr><td>ChatGPT sent an unexpected response</td><td>ChatGPT has probably changed its (unofficial) interface. The extension then deliberately shows nothing incomplete and changes nothing. Reload ChatGPT; if the error persists, only an update of the extension will help.</td></tr>
+          <tr><td>Chat not found (HTTP 404)</td><td>The chat was probably already deleted elsewhere. “Reload”.</td></tr>
+          <tr><td>Safety limit of 30,000 chats reached</td><td>The extension loads at most 30,000 chats per list.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Diagnostics for problem reports</h3>
+    <p><em>Settings → Show diagnostics</em> shows technical details: version, browser, language, connection state, number of loaded chats and the codes of recent errors. Chat titles, contents, IDs and credentials are not included. “Copy” puts the text on the clipboard so you can email it to <a href="mailto:dendev.labs@gmail.com">dendev.labs@gmail.com</a>. Nothing is sent automatically.</p>
+
+    <h2 id="en-faq">10. FAQ</h2>
+    <dl class="faq">
+      <dt>Is this an official OpenAI extension?</dt>
+      <dd>No. Chat Manager for ChatGPT is an independent project, not affiliated with or endorsed by OpenAI.</dd>
+      <dt>Can I undo a deletion?</dt>
+      <dd>Not in this extension. If in doubt, archive instead: archiving can be undone at any time.</dd>
+      <dt>Does deleting free up storage or remove chats from OpenAI’s servers right away?</dt>
+      <dd>We cannot promise that. The extension deletes chats through the same function as the ChatGPT web interface. How long OpenAI keeps deleted chats is up to OpenAI.</dd>
+      <dt>Why are some chats missing?</dt>
+      <dd>The extension shows what ChatGPT’s chat lists return. It uses interfaces that are not officially documented and may change. “Reload” helps after changes in ChatGPT.</dd>
+      <dt>Are my chats or data sent anywhere?</dt>
+      <dd>No. Requests go only to chatgpt.com, using your existing sign-in. There is no server of our own, no tracking and no ads.</dd>
+      <dt>Are favorites and saved filters synced with my Google account?</dt>
+      <dd>No, they are kept in this browser only and are gone after a reinstall.</dd>
+      <dt>Does the extension work in other browsers?</dt>
+      <dd>It is tested in Google Chrome. Other Chromium-based browsers may work but are not tested.</dd>
+      <dt>Does the extension cost anything?</dt>
+      <dd>No, and it will stay free. If you want to support its development, you can do so voluntarily via <a href="https://buymeacoffee.com/rockstaa" target="_blank" rel="noopener noreferrer">Buy Me a Coffee</a>. Supporters get no extra features.</dd>
+    </dl>
+
+    <h2 id="en-privacy">11. Privacy and contact</h2>
+    <p>The extension processes chat titles and metadata only in your browser and uses your ChatGPT session’s access token only in the ChatGPT tab, without storing it. Favorites, settings and saved filters are stored locally. Details are in the <a href="privacy.html">privacy policy</a>.</p>
+    <p>Questions, bugs or ideas: <a href="mailto:dendev.labs@gmail.com">dendev.labs@gmail.com</a></p>
+  </article>
+</main>
+</body>
+</html>
