@@ -10,7 +10,7 @@
   --line-soft: #1d2631;
   --text: #eef2f6;
   --muted: #9aa6b5;
-  --faint: #6f7c8c;
+  --faint: #8794a5; /* ≥ 4.5:1 on all dark surfaces (was #6f7c8c, 3.5:1 on --surface-3) */
   --accent: #34d3a8;
   --accent-2: #2bb8c9;
   --accent-ink: #052520;
@@ -61,7 +61,7 @@
   --text: #15212c;
   --muted: #52606d;
   --faint: #5f6b77;
-  --accent: #08765b;
+  --accent: #076a52; /* ≥ 4.5:1 also on --accent-soft over --surface-3 */
   --accent-2: #087282;
   --accent-ink: #ffffff;
   --accent-soft: rgba(8, 118, 91, .09);
@@ -91,7 +91,7 @@
   --star-line: rgba(176, 122, 0, .3);
   --warn-line: rgba(154, 91, 0, .28);
   --project-soft: rgba(10, 125, 142, .1);
-  --project-ink: #0a7385;
+  --project-ink: #066673;
   --date-icon: none;
 }
 * { box-sizing: border-box; }
@@ -256,7 +256,10 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
 .item { display: flex; align-items: center; gap: 4px; padding: 0 8px 0 0; border-bottom: 1px solid var(--line-soft); transition: background .12s var(--ease); animation: fade .2s var(--ease); }
 .item:last-child { border-bottom: 0; }
 .item:hover { background: var(--row-hover); }
-.item:has(.row-check:checked) { background: var(--accent-soft); }
+/* Class instead of :has(), which forces a style check of every row on each change. */
+.item.selected { background: var(--accent-soft); }
+/* Off-screen rows are not rendered until scrolled near (still findable with Ctrl+F and readable by screen readers). */
+.item { content-visibility: auto; contain-intrinsic-size: auto 64px; }
 .item-main { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; padding: 11px 6px 11px 16px; cursor: pointer; }
 .details { min-width: 0; flex: 1; }
 .name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -299,6 +302,7 @@ input[type="checkbox"]:disabled { cursor: not-allowed; }
 .rate-hint { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line-soft); }
 .rate-hint p { flex: 1 1 240px; margin: 0; color: var(--muted); }
 .rate-ic { width: 18px; height: 18px; color: var(--accent); flex: none; }
+.news-badge { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-line); font-size: 11px; font-weight: 600; line-height: 1.5; vertical-align: 1px; }
 .support-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
 .result ul { margin: 8px 0 0; padding-left: 18px; max-height: 180px; overflow: auto; color: var(--muted); font-size: 12.5px; }
 
@@ -383,6 +387,13 @@ dialog.welcome {
 }
 
 /* Responsive */
+/* Narrow windows and high zoom: menus open across the full width of the filter bar
+   instead of hanging out of the window on the left. */
+@media (max-width: 720px) {
+  .controls-end { flex: 1 1 100%; justify-content: flex-end; flex-wrap: wrap; position: relative; }
+  .menu { position: static; }
+  .menu-panel { left: 0; right: 0; width: auto; }
+}
 @media (max-width: 860px) {
   .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .controls-end { margin-left: 0; }
@@ -442,3 +453,10 @@ dialog.welcome {
 .site-head { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
 .site-head img { border-radius: 14px; }
 .site-foot { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line-soft); }
+
+/* Kept at the end of the file so it wins over the focus rules above.
+   Windows contrast themes drop box-shadow – keep a real outline there, or focus would be invisible. */
+@media (forced-colors: active) {
+  :focus-visible, input:focus, select:focus, #diagText:focus-visible { outline: 2px solid CanvasText; outline-offset: 2px; }
+  .item.selected { outline: 1px solid Highlight; outline-offset: -1px; }
+}

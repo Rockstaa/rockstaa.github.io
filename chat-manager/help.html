@@ -20,7 +20,7 @@
   <!-- ============================== DEUTSCH ============================== -->
   <article id="de" lang="de" class="doc-section">
     <h1>Handbuch</h1>
-    <p class="doc-meta">Chat Manager for ChatGPT · Version 2.2 · unabhängiges Projekt, kein Produkt von OpenAI</p>
+    <p class="doc-meta">Chat Manager for ChatGPT · Version 2.4 · unabhängiges Projekt, kein Produkt von OpenAI</p>
 
     <nav class="toc" aria-label="Inhalt">
       <ol>
@@ -35,6 +35,7 @@
         <li><a href="#de-errors">Meldungen und Lösungen</a></li>
         <li><a href="#de-faq">Häufige Fragen</a></li>
         <li><a href="#de-privacy">Datenschutz und Kontakt</a></li>
+        <li><a href="#de-news">Neuigkeiten</a></li>
       </ol>
     </nav>
 
@@ -110,6 +111,7 @@
       <li><strong>Nach aktueller Anfrage stoppen</strong> hält die Aktion vor dem nächsten Chat an. Bereits bearbeitete Chats bleiben bearbeitet.</li>
       <li>Bei vorübergehenden Fehlern (zu viele Anfragen, Serverfehler, Zeitüberschreitung) versucht die Erweiterung jeden Chat bis zu dreimal, mit wachsender Wartezeit. Lehnt ChatGPT danach immer noch ab (HTTP 429), <strong>stoppt die Aktion</strong>, statt weitere Chats anzufragen.</li>
       <li>Am Ende siehst du, wie viele Chats erfolgreich waren und welche fehlgeschlagen sind. <strong>Fehlgeschlagene erneut versuchen</strong> (nach einem Stopp wegen HTTP 429: <strong>Erneut versuchen</strong>) wiederholt nur die nicht erledigten Chats, erfolgreiche nie.</li>
+      <li><strong>Rückgängig machen</strong> erscheint nach Archivieren, Wiederherstellen und Verschieben im Ergebnis. Es kehrt die Aktion für genau die Chats um, bei denen sie geklappt hat – auch wenn sie in der aktuellen Ansicht nicht mehr zu sehen sind. Verschobene Chats kommen jeweils in ihr vorheriges Projekt zurück. Chats, die du inzwischen selbst geändert hast, werden übersprungen. Löschen lässt sich nicht rückgängig machen. Das Angebot gilt, bis du das Ergebnis schließt oder eine neue Aktion startest.</li>
       <li>Schließt du den Manager während einer Aktion, fragt der Browser vorher nach.</li>
       <li>Die Seitenleiste von ChatGPT zeigt Änderungen oft erst nach einem Neuladen des ChatGPT-Tabs.</li>
     </ul>
@@ -190,12 +192,40 @@
     <h2 id="de-privacy">11. Datenschutz und Kontakt</h2>
     <p>Die Erweiterung verarbeitet Chat-Titel und -Metadaten nur im Browser und nutzt das Zugriffstoken deiner ChatGPT-Sitzung nur im ChatGPT-Tab, ohne es zu speichern. Lokal gespeichert werden Favoriten, Einstellungen und gespeicherte Filter. Einzelheiten stehen in der <a href="privacy.html">Datenschutzerklärung</a>.</p>
     <p>Fragen, Fehler oder Ideen: <a href="mailto:dendev.labs@gmail.com">dendev.labs@gmail.com</a></p>
+
+    <h2 id="de-news">12. Neuigkeiten</h2>
+    <p>Was sich in den letzten Versionen für dich geändert hat. Chrome installiert Updates automatisch; nach einem größeren Update steht unten im Manager neben der Versionsnummer einmal „neu“.</p>
+    <h3 id="de-news-2-4">Version 2.4</h3>
+    <ul>
+      <li><strong>Rückgängig machen</strong> nach Archivieren, Wiederherstellen und Verschieben.</li>
+      <li>Diese Neuigkeiten: Ein Klick auf die Versionsnummer unten im Manager führt hierher.</li>
+      <li>Deutlich flüssiger bei Tausenden Chats, zum Beispiel beim Auswählen und bei „Weitere anzeigen“.</li>
+      <li>Bessere Lesbarkeit und Bedienung: stärkere Kontraste, sichtbarer Fokus auch im Windows-Kontrastmodus, Menüs passen in schmale Fenster.</li>
+    </ul>
+    <h3 id="de-news-2-3">Version 2.3</h3>
+    <ul>
+      <li>Große Chatlisten laden zuverlässiger: Der Manager hört nicht mehr zu früh auf und meldet verständlich, wenn ChatGPT beim Blättern nicht weiterkommt.</li>
+      <li>„Bewerten“ im Footer und in den Einstellungen führt zur Bewertungsseite im Store.</li>
+    </ul>
+    <h3 id="de-news-2-2">Version 2.2</h3>
+    <ul>
+      <li>Hellmodus (Einstellungen → Darstellung) und eine kurze Einführung beim ersten Start.</li>
+      <li>Dieses Handbuch, erreichbar über „?“ oben rechts.</li>
+      <li>„Meine Filter“: Suche, Zeitraum, Projekt und Sortierung unter einem Namen speichern.</li>
+      <li>Bereichsauswahl mit Umschalt+Klick und der Filter „Titel“ für unbenannte Chats.</li>
+      <li>Optionaler Archivierschutz für Favoriten und eine Diagnose für Fehlermeldungen.</li>
+    </ul>
+    <h3 id="de-news-2-1">Version 2.1</h3>
+    <ul>
+      <li>Chats in ChatGPT-Projekten werden erkannt, mit Projektnamen und Filter.</li>
+      <li>Neue Massenaktion „Verschieben“ in ein Projekt oder heraus.</li>
+    </ul>
   </article>
 
   <!-- ============================== ENGLISH ============================== -->
   <article id="en" lang="en" class="doc-section">
     <h1>Handbook</h1>
-    <p class="doc-meta">Chat Manager for ChatGPT · version 2.2 · independent project, not an OpenAI product</p>
+    <p class="doc-meta">Chat Manager for ChatGPT · version 2.4 · independent project, not an OpenAI product</p>
 
     <nav class="toc" aria-label="Contents">
       <ol>
@@ -210,6 +240,7 @@
         <li><a href="#en-errors">Messages and solutions</a></li>
         <li><a href="#en-faq">FAQ</a></li>
         <li><a href="#en-privacy">Privacy and contact</a></li>
+        <li><a href="#en-news">What’s new</a></li>
       </ol>
     </nav>
 
@@ -285,6 +316,7 @@
       <li><strong>Stop after current request</strong> halts the action before the next chat. Chats already processed stay processed.</li>
       <li>On temporary errors (too many requests, server errors, timeouts) each chat is tried up to three times with growing waits. If ChatGPT still refuses (HTTP 429), <strong>the action stops</strong> instead of requesting further chats.</li>
       <li>At the end you see how many chats succeeded and which failed. <strong>Retry failed</strong> (after a stop because of HTTP 429: <strong>Retry</strong>) only repeats chats that were not done, never successful ones.</li>
+      <li><strong>Undo</strong> appears in the result after archiving, restoring and moving. It reverses the action for exactly the chats where it succeeded – even if they are no longer shown in the current view. Moved chats each go back to their previous project. Chats you have changed yourself in the meantime are skipped. Deleting cannot be undone. Undo is available until you close the result or start a new action.</li>
       <li>If you close the manager during an action, the browser asks first.</li>
       <li>ChatGPT’s sidebar often shows changes only after reloading the ChatGPT tab.</li>
     </ul>
@@ -365,6 +397,34 @@
     <h2 id="en-privacy">11. Privacy and contact</h2>
     <p>The extension processes chat titles and metadata only in your browser and uses your ChatGPT session’s access token only in the ChatGPT tab, without storing it. Favorites, settings and saved filters are stored locally. Details are in the <a href="privacy.html">privacy policy</a>.</p>
     <p>Questions, bugs or ideas: <a href="mailto:dendev.labs@gmail.com">dendev.labs@gmail.com</a></p>
+
+    <h2 id="en-news">12. What’s new</h2>
+    <p>What changed for you in recent versions. Chrome installs updates automatically; after a larger update, the manager shows “new” next to the version number at the bottom once.</p>
+    <h3 id="en-news-2-4">Version 2.4</h3>
+    <ul>
+      <li><strong>Undo</strong> after archiving, restoring and moving.</li>
+      <li>This news page: click the version number at the bottom of the manager to get here.</li>
+      <li>Much smoother with thousands of chats, for example when selecting and with “Show more”.</li>
+      <li>Better readability and keyboard use: stronger contrast, visible focus in Windows contrast themes too, menus fit narrow windows.</li>
+    </ul>
+    <h3 id="en-news-2-3">Version 2.3</h3>
+    <ul>
+      <li>Large chat lists load more reliably: the manager no longer stops too early and tells you clearly if ChatGPT stops advancing while paging.</li>
+      <li>“Rate” in the footer and in Settings leads to the review page in the store.</li>
+    </ul>
+    <h3 id="en-news-2-2">Version 2.2</h3>
+    <ul>
+      <li>Light theme (Settings → Appearance) and a short introduction on first start.</li>
+      <li>This handbook, available via “?” at the top right.</li>
+      <li>“My filters”: save search, period, project and sort under a name.</li>
+      <li>Range selection with Shift+click and the “Title” filter for untitled chats.</li>
+      <li>Optional archive protection for favorites and diagnostics for error reports.</li>
+    </ul>
+    <h3 id="en-news-2-1">Version 2.1</h3>
+    <ul>
+      <li>Chats in ChatGPT projects are recognized, with project names and a filter.</li>
+      <li>New bulk action “Move” into or out of a project.</li>
+    </ul>
   </article>
 </main>
 </body>
