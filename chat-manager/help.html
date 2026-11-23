@@ -20,7 +20,7 @@
   <!-- ============================== DEUTSCH ============================== -->
   <article id="de" lang="de" class="doc-section">
     <h1>Handbuch</h1>
-    <p class="doc-meta">Chat Manager for ChatGPT · Version 2.4 · unabhängiges Projekt, kein Produkt von OpenAI</p>
+    <p class="doc-meta">Chat Manager for ChatGPT · Version 2.5 · unabhängiges Projekt, kein Produkt von OpenAI</p>
 
     <nav class="toc" aria-label="Inhalt">
       <ol>
@@ -113,7 +113,7 @@
       <li>Am Ende siehst du, wie viele Chats erfolgreich waren und welche fehlgeschlagen sind. <strong>Fehlgeschlagene erneut versuchen</strong> (nach einem Stopp wegen HTTP 429: <strong>Erneut versuchen</strong>) wiederholt nur die nicht erledigten Chats, erfolgreiche nie.</li>
       <li><strong>Rückgängig machen</strong> erscheint nach Archivieren, Wiederherstellen und Verschieben im Ergebnis. Es kehrt die Aktion für genau die Chats um, bei denen sie geklappt hat – auch wenn sie in der aktuellen Ansicht nicht mehr zu sehen sind. Verschobene Chats kommen jeweils in ihr vorheriges Projekt zurück. Chats, die du inzwischen selbst geändert hast, werden übersprungen. Löschen lässt sich nicht rückgängig machen. Das Angebot gilt, bis du das Ergebnis schließt oder eine neue Aktion startest.</li>
       <li>Schließt du den Manager während einer Aktion, fragt der Browser vorher nach.</li>
-      <li>Die Seitenleiste von ChatGPT zeigt Änderungen oft erst nach einem Neuladen des ChatGPT-Tabs.</li>
+      <li><strong>Seitenleiste von ChatGPT:</strong> ChatGPT bemerkt Änderungen nicht, die außerhalb des Tabs gemacht werden. Gelöschte Chats stehen deshalb mit ihrem Titel weiter in der Seitenleiste, bis der ChatGPT-Tab neu geladen wird. Ein Klick darauf zeigt keinen Inhalt mehr, weil der Chat schon gelöscht ist. Nach jeder Aktion bietet das Ergebnisfeld dafür <strong>ChatGPT-Tab aktualisieren</strong> an. Der Button lädt alle offenen ChatGPT-Tabs neu; nicht abgeschickte Eingaben dort gehen dabei verloren. Automatisch lädt die Erweiterung nichts neu.</li>
     </ul>
 
     <h2 id="de-favorites">6. Favoriten und Schutz</h2>
@@ -161,6 +161,7 @@
           <tr><td>ChatGPT-Serverfehler, Zeitüberschreitung, Netzwerkfehler</td><td>Internetverbindung prüfen und später erneut versuchen.</td></tr>
           <tr><td>Liste unvollständig</td><td>Das Laden wurde unterbrochen. Aktionen betreffen nur die angezeigten Chats. „Erneut versuchen“ lädt die Liste neu.</td></tr>
           <tr><td>ChatGPT hat eine unerwartete Antwort geschickt</td><td>ChatGPT hat vermutlich seine (nicht offizielle) Schnittstelle geändert. Die Erweiterung zeigt dann bewusst nichts Unvollständiges an und ändert nichts. ChatGPT neu laden; bleibt der Fehler, hilft nur ein Update der Erweiterung.</td></tr>
+          <tr><td>Nach dem Löschen stehen die Titel noch in der Seitenleiste von ChatGPT, die Chats sind aber leer</td><td>Die Chats sind gelöscht, nur die Seitenleiste ist veraltet. Im Ergebnisfeld „ChatGPT-Tab aktualisieren“ klicken oder den ChatGPT-Tab mit F5 neu laden. Nicht noch einmal von Hand löschen.</td></tr>
           <tr><td>Chat nicht gefunden (HTTP 404)</td><td>Der Chat wurde vermutlich schon anderweitig gelöscht. „Neu laden“.</td></tr>
           <tr><td>Sicherheitsgrenze von 30.000 Chats erreicht</td><td>Die Erweiterung lädt höchstens 30.000 Chats pro Liste.</td></tr>
         </tbody>
@@ -195,6 +196,11 @@
 
     <h2 id="de-news">12. Neuigkeiten</h2>
     <p>Was sich in den letzten Versionen für dich geändert hat. Chrome installiert Updates automatisch; nach einem größeren Update steht unten im Manager neben der Versionsnummer einmal „neu“.</p>
+    <h3 id="de-news-2-5">Version 2.5</h3>
+    <ul>
+      <li>Nach dem Löschen sagt der Manager jetzt deutlich: Die Chats sind gelöscht, nur die Seitenleiste von ChatGPT zeigt ihre Titel noch an, bis der Tab neu geladen wird.</li>
+      <li>Neuer Button <strong>ChatGPT-Tab aktualisieren</strong> im Ergebnis einer Aktion. Er lädt ChatGPT neu, damit die Seitenleiste stimmt.</li>
+    </ul>
     <h3 id="de-news-2-4">Version 2.4</h3>
     <ul>
       <li><strong>Rückgängig machen</strong> nach Archivieren, Wiederherstellen und Verschieben.</li>
@@ -225,7 +231,7 @@
   <!-- ============================== ENGLISH ============================== -->
   <article id="en" lang="en" class="doc-section">
     <h1>Handbook</h1>
-    <p class="doc-meta">Chat Manager for ChatGPT · version 2.4 · independent project, not an OpenAI product</p>
+    <p class="doc-meta">Chat Manager for ChatGPT · version 2.5 · independent project, not an OpenAI product</p>
 
     <nav class="toc" aria-label="Contents">
       <ol>
@@ -318,7 +324,7 @@
       <li>At the end you see how many chats succeeded and which failed. <strong>Retry failed</strong> (after a stop because of HTTP 429: <strong>Retry</strong>) only repeats chats that were not done, never successful ones.</li>
       <li><strong>Undo</strong> appears in the result after archiving, restoring and moving. It reverses the action for exactly the chats where it succeeded – even if they are no longer shown in the current view. Moved chats each go back to their previous project. Chats you have changed yourself in the meantime are skipped. Deleting cannot be undone. Undo is available until you close the result or start a new action.</li>
       <li>If you close the manager during an action, the browser asks first.</li>
-      <li>ChatGPT’s sidebar often shows changes only after reloading the ChatGPT tab.</li>
+      <li><strong>ChatGPT’s sidebar:</strong> ChatGPT does not notice changes made outside its tab. Deleted chats therefore keep their titles in the sidebar until the ChatGPT tab is reloaded. Clicking one shows no content, because the chat is already deleted. After every action the result offers <strong>Refresh ChatGPT tab</strong> for this. The button reloads all open ChatGPT tabs; anything typed there but not yet sent is lost. The extension never reloads anything automatically.</li>
     </ul>
 
     <h2 id="en-favorites">6. Favorites and protection</h2>
@@ -366,6 +372,7 @@
           <tr><td>ChatGPT server error, timeout, network error</td><td>Check your internet connection and try again later.</td></tr>
           <tr><td>List incomplete</td><td>Loading was interrupted. Actions only affect the chats shown. “Try again” loads the list again.</td></tr>
           <tr><td>ChatGPT sent an unexpected response</td><td>ChatGPT has probably changed its (unofficial) interface. The extension then deliberately shows nothing incomplete and changes nothing. Reload ChatGPT; if the error persists, only an update of the extension will help.</td></tr>
+          <tr><td>After deleting, the titles are still in ChatGPT’s sidebar, but the chats are empty</td><td>The chats are deleted; only the sidebar is out of date. Click “Refresh ChatGPT tab” in the result or reload the ChatGPT tab with F5. No need to delete them again by hand.</td></tr>
           <tr><td>Chat not found (HTTP 404)</td><td>The chat was probably already deleted elsewhere. “Reload”.</td></tr>
           <tr><td>Safety limit of 30,000 chats reached</td><td>The extension loads at most 30,000 chats per list.</td></tr>
         </tbody>
@@ -400,6 +407,11 @@
 
     <h2 id="en-news">12. What’s new</h2>
     <p>What changed for you in recent versions. Chrome installs updates automatically; after a larger update, the manager shows “new” next to the version number at the bottom once.</p>
+    <h3 id="en-news-2-5">Version 2.5</h3>
+    <ul>
+      <li>After deleting, the manager now says clearly: the chats are deleted, only ChatGPT’s sidebar still shows their titles until the tab is reloaded.</li>
+      <li>New button <strong>Refresh ChatGPT tab</strong> in the result of an action. It reloads ChatGPT so the sidebar is up to date.</li>
+    </ul>
     <h3 id="en-news-2-4">Version 2.4</h3>
     <ul>
       <li><strong>Undo</strong> after archiving, restoring and moving.</li>
