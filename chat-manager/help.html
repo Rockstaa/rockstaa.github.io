@@ -20,7 +20,7 @@
   <!-- ============================== DEUTSCH ============================== -->
   <article id="de" lang="de" class="doc-section">
     <h1>Handbuch</h1>
-    <p class="doc-meta">Chat Manager for ChatGPT · Version 2.5 · unabhängiges Projekt, kein Produkt von OpenAI</p>
+    <p class="doc-meta">Chat Manager for ChatGPT · Version 2.6 · unabhängiges Projekt, kein Produkt von OpenAI</p>
 
     <nav class="toc" aria-label="Inhalt">
       <ol>
@@ -112,7 +112,7 @@
       <li>Bei vorübergehenden Fehlern (zu viele Anfragen, Serverfehler, Zeitüberschreitung) versucht die Erweiterung jeden Chat bis zu dreimal, mit wachsender Wartezeit. Lehnt ChatGPT danach immer noch ab (HTTP 429), <strong>stoppt die Aktion</strong>, statt weitere Chats anzufragen.</li>
       <li>Am Ende siehst du, wie viele Chats erfolgreich waren und welche fehlgeschlagen sind. <strong>Fehlgeschlagene erneut versuchen</strong> (nach einem Stopp wegen HTTP 429: <strong>Erneut versuchen</strong>) wiederholt nur die nicht erledigten Chats, erfolgreiche nie.</li>
       <li><strong>Rückgängig machen</strong> erscheint nach Archivieren, Wiederherstellen und Verschieben im Ergebnis. Es kehrt die Aktion für genau die Chats um, bei denen sie geklappt hat – auch wenn sie in der aktuellen Ansicht nicht mehr zu sehen sind. Verschobene Chats kommen jeweils in ihr vorheriges Projekt zurück. Chats, die du inzwischen selbst geändert hast, werden übersprungen. Löschen lässt sich nicht rückgängig machen. Das Angebot gilt, bis du das Ergebnis schließt oder eine neue Aktion startest.</li>
-      <li>Schließt du den Manager während einer Aktion, fragt der Browser vorher nach.</li>
+      <li>Schließt du den Manager während einer Aktion, fragt der Browser vorher nach. Wurde die Aktion trotzdem unterbrochen, zum Beispiel durch einen Absturz: Manager öffnen, Liste neu laden, die übrigen Chats auswählen und die Aktion erneut starten. Bereits bearbeitete Chats sind dann nicht mehr in der Ansicht.</li>
       <li><strong>Seitenleiste von ChatGPT:</strong> ChatGPT bemerkt Änderungen nicht, die außerhalb des Tabs gemacht werden. Gelöschte Chats stehen deshalb mit ihrem Titel weiter in der Seitenleiste, bis der ChatGPT-Tab neu geladen wird. Ein Klick darauf zeigt keinen Inhalt mehr, weil der Chat schon gelöscht ist. Nach jeder Aktion bietet das Ergebnisfeld dafür <strong>ChatGPT-Tab aktualisieren</strong> an. Der Button lädt alle offenen ChatGPT-Tabs neu; nicht abgeschickte Eingaben dort gehen dabei verloren. Automatisch lädt die Erweiterung nichts neu.</li>
     </ul>
 
@@ -140,7 +140,7 @@
       <img src="help/img/de/settings.webp" width="480" height="752" loading="lazy" alt="Einstellungsdialog mit Sprache, Darstellung, Schutzoptionen und Pause zwischen Anfragen.">
     </figure>
     <ul>
-      <li><strong>Sprache:</strong> Browser-Standard, Deutsch oder Englisch.</li>
+      <li><strong>Sprache:</strong> Browser-Standard, Deutsch, Englisch, Spanisch, Französisch oder Portugiesisch (Brasilien). Dieses Handbuch gibt es auf Deutsch und Englisch.</li>
       <li><strong>Darstellung:</strong> wie das System, dunkel oder hell.</li>
       <li><strong>Löschschutz</strong> und <strong>Archivierschutz</strong> für Favoriten (siehe oben).</li>
       <li><strong>Pause zwischen Anfragen:</strong> 0,3 bis 2 Sekunden. Eine längere Pause hilft, wenn ChatGPT „zu viele Anfragen“ meldet.</li>
@@ -196,6 +196,11 @@
 
     <h2 id="de-news">12. Neuigkeiten</h2>
     <p>Was sich in den letzten Versionen für dich geändert hat. Chrome installiert Updates automatisch; nach einem größeren Update steht unten im Manager neben der Versionsnummer einmal „neu“.</p>
+    <h3 id="de-news-2-6">Version 2.6</h3>
+    <ul>
+      <li>Der Manager spricht jetzt auch <strong>Spanisch, Französisch und Portugiesisch (Brasilien)</strong>. Er richtet sich nach der Sprache deines Browsers; in den Einstellungen kannst du sie selbst wählen. Dieses Handbuch gibt es weiterhin auf Deutsch und Englisch.</li>
+      <li>Im Abschnitt Massenaktionen steht jetzt, wie du eine unterbrochene Aktion fortsetzt.</li>
+    </ul>
     <h3 id="de-news-2-5">Version 2.5</h3>
     <ul>
       <li>Nach dem Löschen sagt der Manager jetzt deutlich: Die Chats sind gelöscht, nur die Seitenleiste von ChatGPT zeigt ihre Titel noch an, bis der Tab neu geladen wird.</li>
@@ -231,7 +236,7 @@
   <!-- ============================== ENGLISH ============================== -->
   <article id="en" lang="en" class="doc-section">
     <h1>Handbook</h1>
-    <p class="doc-meta">Chat Manager for ChatGPT · version 2.5 · independent project, not an OpenAI product</p>
+    <p class="doc-meta">Chat Manager for ChatGPT · version 2.6 · independent project, not an OpenAI product</p>
 
     <nav class="toc" aria-label="Contents">
       <ol>
@@ -323,7 +328,7 @@
       <li>On temporary errors (too many requests, server errors, timeouts) each chat is tried up to three times with growing waits. If ChatGPT still refuses (HTTP 429), <strong>the action stops</strong> instead of requesting further chats.</li>
       <li>At the end you see how many chats succeeded and which failed. <strong>Retry failed</strong> (after a stop because of HTTP 429: <strong>Retry</strong>) only repeats chats that were not done, never successful ones.</li>
       <li><strong>Undo</strong> appears in the result after archiving, restoring and moving. It reverses the action for exactly the chats where it succeeded – even if they are no longer shown in the current view. Moved chats each go back to their previous project. Chats you have changed yourself in the meantime are skipped. Deleting cannot be undone. Undo is available until you close the result or start a new action.</li>
-      <li>If you close the manager during an action, the browser asks first.</li>
+      <li>If you close the manager during an action, the browser asks first. If the action was interrupted anyway, for example by a crash: open the manager, reload the list, select the remaining chats and start the action again. Chats that were already processed are no longer in the view.</li>
       <li><strong>ChatGPT’s sidebar:</strong> ChatGPT does not notice changes made outside its tab. Deleted chats therefore keep their titles in the sidebar until the ChatGPT tab is reloaded. Clicking one shows no content, because the chat is already deleted. After every action the result offers <strong>Refresh ChatGPT tab</strong> for this. The button reloads all open ChatGPT tabs; anything typed there but not yet sent is lost. The extension never reloads anything automatically.</li>
     </ul>
 
@@ -351,7 +356,7 @@
       <img src="help/img/en/settings.webp" width="480" height="752" loading="lazy" alt="Settings dialog with language, appearance, protection options and the pause between requests.">
     </figure>
     <ul>
-      <li><strong>Language:</strong> browser default, German or English.</li>
+      <li><strong>Language:</strong> browser default, German, English, Spanish, French or Portuguese (Brazil). This handbook is available in German and English.</li>
       <li><strong>Appearance:</strong> like the system, dark or light.</li>
       <li><strong>Delete protection</strong> and <strong>archive protection</strong> for favorites (see above).</li>
       <li><strong>Pause between requests:</strong> 0.3 to 2 seconds. A longer pause helps when ChatGPT reports “too many requests”.</li>
@@ -407,6 +412,11 @@
 
     <h2 id="en-news">12. What’s new</h2>
     <p>What changed for you in recent versions. Chrome installs updates automatically; after a larger update, the manager shows “new” next to the version number at the bottom once.</p>
+    <h3 id="en-news-2-6">Version 2.6</h3>
+    <ul>
+      <li>The manager now also speaks <strong>Spanish, French and Portuguese (Brazil)</strong>. It follows your browser language; you can pick one yourself in the settings. This handbook stays available in German and English.</li>
+      <li>The bulk actions section now explains how to continue an interrupted action.</li>
+    </ul>
     <h3 id="en-news-2-5">Version 2.5</h3>
     <ul>
       <li>After deleting, the manager now says clearly: the chats are deleted, only ChatGPT’s sidebar still shows their titles until the tab is reloaded.</li>
